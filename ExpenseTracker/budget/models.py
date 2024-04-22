@@ -7,15 +7,15 @@ class Semester(models.Model):
     student_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
-    starting_balance = models.DecimalField()
-    semester_tuition = models.DecimalField()
+    starting_balance = models.DecimalField(decimal_places=2, max_digits=10)
+    semester_tuition = models.DecimalField(decimal_places=2, max_digits=10)
     #User Does Not Enter Expected End Balance, it is calculated
-    expected_end_balance = starting_balance
+    expected_end_balance = models.DecimalField(decimal_places=2, max_digits=10)
 
 class Income(models.Model):
     income_id = models.AutoField(primary_key=True)
-    semester_id = models.ForeignKey(Semester, on_delete=models.models.RESTRICT, null=True)
-    amount = models.DecimalField()
+    semester_id = models.ForeignKey(Semester, on_delete=models.RESTRICT, null=True)
+    amount = models.DecimalField(decimal_places=2, max_digits=10)
     is_recurring = models.BooleanField()
     #User Does Not Enter date_last_updated, it is automatically generated
     date_last_updated = models.DateField(auto_now=True)
@@ -24,8 +24,8 @@ class Income(models.Model):
 
 class Expense(models.Model):
     income_id = models.AutoField(primary_key=True)
-    semester_id = models.ForeignKey(Semester, on_delete=models.models.RESTRICT, null=True)
-    amount = models.DecimalField()
+    semester_id = models.ForeignKey(Semester, on_delete=models.RESTRICT, null=True)
+    amount = models.DecimalField(decimal_places=2, max_digits=10)
     is_recurring = models.BooleanField()
     #User Does Not Enter date_last_updated, it is automatically generated
     date_last_updated = models.DateField(auto_now=True)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Semester, Income, Expense
+from .models import Semester, Income, Expense
 
 # Register your models here.
 admin.register(Semester)
