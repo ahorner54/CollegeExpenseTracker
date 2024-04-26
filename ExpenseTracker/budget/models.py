@@ -20,6 +20,7 @@ class Income(models.Model):
     is_recurring = models.BooleanField()
     #User Does Not Enter date_last_updated, it is automatically generated
     date_last_updated = models.DateField(auto_now=True)
+    end_date = models.DateField()
     recurring_period = models.CharField(max_length = 20)
     memo = models.CharField(max_length=200, null=True)
 
@@ -30,5 +31,6 @@ class Expense(models.Model):
     is_recurring = models.BooleanField()
     #User Does Not Enter date_last_updated, it is automatically generated
     date_last_updated = models.DateField(auto_now=True)
+    end_date = models.DateField()
     recurring_period = models.CharField(max_length = 20)
     memo = models.CharField(max_length=200, null=True)
