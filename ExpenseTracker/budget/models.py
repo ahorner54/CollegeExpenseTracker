@@ -5,6 +5,7 @@ from django.conf import settings
 class Semester(models.Model):
     semester_id = models.AutoField(primary_key=True)
     student_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    semester_name = models.CharField(max_length = 30)
     start_date = models.DateField()
     end_date = models.DateField()
     starting_balance = models.DecimalField(decimal_places=2, max_digits=10)
