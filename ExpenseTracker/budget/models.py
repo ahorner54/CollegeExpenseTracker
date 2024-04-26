@@ -10,7 +10,7 @@ class Semester(models.Model):
     starting_balance = models.DecimalField(decimal_places=2, max_digits=10)
     semester_tuition = models.DecimalField(decimal_places=2, max_digits=10)
     #User Does Not Enter Expected End Balance, it is calculated
-    expected_end_balance = models.DecimalField(decimal_places=2, max_digits=10)
+    current_balance = models.DecimalField(decimal_places=2, max_digits=10)
 
 class Income(models.Model):
     income_id = models.AutoField(primary_key=True)
