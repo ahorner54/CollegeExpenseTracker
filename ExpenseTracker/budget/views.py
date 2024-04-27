@@ -20,3 +20,8 @@ def login_user(request):
             return redirect('home')
     else:
         return render(request, 'budget/login.html', {})
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, 'You have been logged out successfully.')
+    return redirect('home')
