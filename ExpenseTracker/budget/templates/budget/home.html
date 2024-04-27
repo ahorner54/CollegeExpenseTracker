@@ -1,1 +1,9 @@
 {% extends '../base.html' %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+{% if user.is_authenticated %}
+{% else %}
+    {% include './login.html' %}
+{% endif %}
+
+{% endblock content%}
