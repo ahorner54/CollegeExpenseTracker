@@ -16,7 +16,7 @@ def login_user(request):
             login(request, user)
             return redirect('home')
         else:
-            messages.success(request, 'Login failed, try again.')
+            messages.success(request, 'Username and password do not match, try again.')
             return redirect('home')
     else:
         return render(request, 'budget/home.html', {})
