@@ -19,7 +19,7 @@ def login_user(request):
             messages.success(request, 'Login failed, try again.')
             return redirect('home')
     else:
-        return render(request, 'budget/login.html', {})
+        return render(request, 'budget/home.html', {})
 
 def logout_user(request):
     logout(request)

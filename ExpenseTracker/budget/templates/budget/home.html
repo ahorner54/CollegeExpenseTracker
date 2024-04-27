@@ -6,7 +6,9 @@
     <h1>Welcome: {{user.username}}</h1>
 
 {% else %}
-    {% include './login.html' %}
+    <div class="container">
+        {% include './login.html' %}
+    </div>
 {% endif %}
 
 {% endblock content%}
