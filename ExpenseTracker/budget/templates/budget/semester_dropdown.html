@@ -1,0 +1,5 @@
+<select name="language" id="language">
+    {% for semester in semester_list %}
+        <option value="{{semester.semester_id}}" disabled>{{semester.semester_name}}</option>
+    {% endfor %}
+  </select>

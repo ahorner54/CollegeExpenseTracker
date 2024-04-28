@@ -4,7 +4,8 @@ from django.contrib import messages
 
 # Create your views here.
 def home(request):
-    return render(request, 'budget/home.html', {})
+    context={}
+    return render(request, 'budget/home.html', context=context)
 
 def login_user(request):
     if request.method == 'POST':
