@@ -1,2 +1,18 @@
-{% extends '../base.html' %}
-{% include './home.html' %}
+{% extends './home.html' %}
+{%block semester %}
+    <div class="container">
+        {% if incomes %}
+            {% for income in incomes %}
+                <p>{{income.amount}}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="container">
+        {% if expenses %}
+            {% for expense in expenses %}
+                <p>{{expense.amount}}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock semester %}

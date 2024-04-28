@@ -23,8 +23,12 @@ def semester(request, pk):
     else:
         user_pk = request.user.pk
         semesters = Semester.objects.filter(student_id = user_pk)
+        incomes = Income.objects.filter(semester_id=pk)
+        expenses = Expense.objects.filter(semester_id=pk)
         context = {
-           'semester_list': semesters
+           'semester_list': semesters,
+           'incomes': incomes,
+            'expenses': expenses
         }
         return render(request, 'budget/semester_view.html', context=context)
 
