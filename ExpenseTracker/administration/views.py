@@ -17,7 +17,8 @@ from django.contrib.auth.models import User
 
 def home(request):
     user_list = User.objects.filter(groups__name = 'Student')
-    return render(request, 'administration/user_list.html', {"us_list": user_list})
+    count = User.objects.filter(groups__name = 'Student').count
+    return render(request, 'administration/user_list.html', {"us_list": user_list, "number_of_users": count})
 
 def user_view(request, pk):
     user = User.objects.get(username=pk)
@@ -46,6 +47,10 @@ def update_user(request, pk):
             return redirect("administration_home")
     return render(request, "administration/update_user.html", {"form": form})
     
+def delete_user(request, pk):
+    user = User.objects.get(username = pk)
+    user.delete()
+    return redirect("administration_home")
 
 
 def adminList(request):

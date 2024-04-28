@@ -8,12 +8,18 @@
 {% block content %}
 <div class="container-fluid">
   <div class="header-section">
-    <h1>Local Library Home</h1>
+    <h1 style="margin-top: 0px">User List</h1>
     <p>
-      Welcome to LocalLibrary, a website developed by
-      <em>Mozilla Developer Network</em>!
+      View and edit Users Here
     </p>
+  </div>
 
+  <div class="body-section">
+    <p style="margin-top: 50px; margin-bottom: 70px;">The current number of uses are: {{ number_of_users }}</p> 
+    <br>
+  </div>
+
+  <div class="table-section">
     {% if us_list %}
       <table class="table table-striped">
         <thead class="table-dark">
@@ -38,6 +44,8 @@
     {% endif %}
 
     <a href="{% url 'add_user' %}" class="btn btn-secondary">Add New User</a>
+  
   </div>
+    
 </div>
 {% endblock %}
