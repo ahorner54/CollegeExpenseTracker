@@ -1,15 +1,11 @@
 {% extends '../base.html' %}
 {% block title %}Home{% endblock title %}
 {% block content %}
-{% if user.is_authenticated %}
-
-    <!-- This h1 is only for testing, delete for finished product -->
-    <h1>Welcome: {{user.username}}</h1>
-
-{% else %}
-    <div class="container">
-        {% include './login.html' %}
-    </div>
-{% endif %}
+    {% if user.is_authenticated %}
+    {% else %}
+        <div class="container">
+            {% include './login.html' %}
+        </div>
+    {% endif %}
 
 {% endblock content%}
