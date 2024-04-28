@@ -7,6 +7,14 @@ from .models import Semester, Income, Expense
 
 # Create your views here.
 def home(request):
+    if request.user.is_authenticated:
+        user_pk = request.user.pk
+        semesters = Semester.objects.filter(student_id = user_pk)
+        context = {
+           'semester_list': semesters
+        }
+        return render(request, 'budget/home.html', context=context)
+    
     return render(request, 'budget/home.html', {})
 
 def semester(request, pk):

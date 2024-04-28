@@ -1,18 +1,26 @@
 {% extends '../base.html' %}
+
 {% block title %}Home{% endblock title %}
+{% load static %}
+{% block style %}
+{% endblock style %}
+
 {% block content %}
     {% if user.is_authenticated %}
-
-    <div class="container">
-        <div class="dropdown">
-            <button>Select Semester</button>
-            <div class="dropdown-options">
-                {% for semester in semester_list %}
-                    <a href="#">{{semester.semester_name}}</a>
-                {% endfor %}
+        {% if semester_list %}
+        <div class="container">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select Semester
+                </button>
+                <ul class="dropdown-menu">
+                    {% for semester in semester_list %}
+                        <li><a href="{% url 'semester' semester.pk %}">{{semester.semester_name}}</a>></li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
-    </div>
+        {%endif%}
 
     {% else %}
         <div class="container">
