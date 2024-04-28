@@ -1,0 +1,24 @@
+{% extends 'budget/base.html' %}
+
+{% block title %}Registration{% endblock title %}
+
+{% block content %}
+    {% if form.errors %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {% for field in form %}
+                    {% if field.errors %}
+                        {{field.errors}}
+                    {% endif %}
+                {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+    <div class="container w-50 mt-5 border rounded-5 p-3">
+        <h1>Registration:</h1>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div>{{form.as_p}}</div>
+            <button type="submit" class="btn btn-secondary">Register</button>
+        </from>
+    </div>
+{% endblock content %}
