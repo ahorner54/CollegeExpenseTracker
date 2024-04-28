@@ -4,7 +4,14 @@
     {% if user.is_authenticated %}
 
     <div class="container">
-        {% include './semester_dropdown.html' %}
+        <div class="dropdown">
+            <button>Select Semester</button>
+            <div class="dropdown-options">
+                {% for semester in semester_list %}
+                    <a href="#">{{semester.semester_name}}</a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
     {% else %}
