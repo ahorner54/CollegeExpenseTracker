@@ -1,0 +1,25 @@
+{% extends '../admin_generic.html' %}
+
+{% block title %}
+  <title>Add User</title>
+{% endblock title %}
+
+
+{% block content %}
+<div class="container-fluid">
+  <div class="header-section">
+    <div class="mt-4 p-5">
+      <h1>Add New User:</h1>
+      <form method="POST" action="">
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <button type="submit" class="btn btn-secondary">Add User</button>
+
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

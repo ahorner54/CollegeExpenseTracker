@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from pyexpat.errors import messages
+from django.shortcuts import redirect, render
+from .forms import AddUserForm
+
 
 # Create your views here.
 from django.views import generic
@@ -19,6 +22,17 @@ def home(request):
 def user_view(request, pk):
     user = User.objects.get(username=pk)
     return render(request, "administration/user.html", context={"user": user})
+
+def add_user(request):
+    form = AddUserForm(request.POST or None)
+    if request.method == "POST" :
+        if form.is_valid():
+            new_user = form.save()
+            messages.success(
+                request, "A new User record was added successfully"
+            )
+            return redirect("administration_home")
+    return render(request, "administration/add_user.html", {"form": form})
 
 
 def adminList(request):

@@ -36,6 +36,8 @@
       {% else %}
         <p>No Users On Record</p>
     {% endif %}
+
+    <a href="{% url 'add_user' %}" class="btn btn-secondary">Add New User</a>
   </div>
 </div>
 {% endblock %}
