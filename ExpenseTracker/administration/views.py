@@ -94,5 +94,3 @@ def delete_admin(request, pk):
     user.delete()
     return redirect("admin_list")
 
-def adminForm(request):
-    return render(request, 'administration/admin_form.html', {})
