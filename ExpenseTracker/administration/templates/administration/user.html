@@ -1,0 +1,31 @@
+{% extends '../admin_generic.html' %}
+
+{% block title %}
+  <title>User Detail</title>
+{% endblock title %}
+
+
+{% block content %}
+<div class="container-fluid">
+  <div class="header-section">
+    <h2>User Details:</h2>
+    <div class="card w-75 m-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ user.username }}</h5>
+        <hr>
+        <p class="card-text"> 
+          <strong>User First Name:</strong> {{ user.first_name }}
+        </p>
+        <p class="card-text"> 
+          <strong>User Last Name:</strong> {{ user.last_name }}
+        </p>
+        <p class="card-text"> 
+          <strong>User Email:</strong> {{ user.email }}
+        </p>
+        <a href="{% url 'administration_home' %}" class="btn btn-secondary">Back</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
