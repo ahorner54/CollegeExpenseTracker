@@ -28,11 +28,24 @@ def add_user(request):
     if request.method == "POST" :
         if form.is_valid():
             new_user = form.save()
-            messages.success(
-                request, "A new User record was added successfully"
-            )
+            # messages.success(
+            #     request, "A new User record was added successfully"
+            # )
             return redirect("administration_home")
     return render(request, "administration/add_user.html", {"form": form})
+
+def update_user(request, pk):
+    current_user = User.objects.get(username=pk)
+    form = AddUserForm(request.POST or None, instance = current_user)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            # messages.success(
+            #     request, "A current user record was updated."
+            # )
+            return redirect("administration_home")
+    return render(request, "administration/update_user.html", {"form": form})
+    
 
 
 def adminList(request):
