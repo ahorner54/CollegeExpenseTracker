@@ -11,14 +11,16 @@
     </table>
 </div>
 
-<div class="container">
+<div class="container pt-5 pb-3">
     {% if incomes %}
+    <h2><strong>Income List: </strong></h2>
     <table class="table table-striped">
         <thead class="table-bordered">
             <th>Memo</th>
             <th>Amount</th>
             <th>Recurring</th>
             <th>End Date</th>
+            <th style="width: 20px;"></th>
         </thead>
         {% for income in incomes %}
             <tr>
@@ -26,20 +28,23 @@
                 <td>{{income.amount}}</td>
                 <td>{{income.recurring_period}}</td>
                 <td>{{income.end_date}}</td>
+                <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="#">Update</a>
             </tr>
         {% endfor %}
     </table>   
     {% endif %}
 </div>
 
-    <div class="container">
+    <div class="container pt-5 pb-3">
         {% if expenses %}
+        <h2><strong>Expense List: </strong></h2>
         <table class="table table-striped">
             <thead class="table-bordered"> 
                 <th>Memo</th>
                 <th>Amount</th>
                 <th>Recurring</th>
                 <th>End Date</th>
+                <th style="width: 20px;"></th>
             </thead>
             {% for expense in expenses %}
                 <tr>
@@ -47,6 +52,7 @@
                     <td>{{expense.amount}}</td>
                     <td>{{expense.recurring_period}}</td>
                     <td>{{expense.end_date}}</td>
+                    <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="#">Update</a>
                 </tr>
             {% endfor %}
         </table>   
