@@ -11,6 +11,8 @@ from datetime import date, timedelta
 
 def home(request):
     if request.user.is_authenticated:
+        if request.user.is_staff:
+            return redirect('administration_home')
         user_pk = request.user.pk
         semesters = Semester.objects.filter(student_id = user_pk)
         context = {
