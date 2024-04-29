@@ -1,0 +1,33 @@
+{% extends '../admin_generic.html' %}
+
+{% block title %}
+  <title>Admin Detail</title>
+{% endblock title %}
+
+
+{% block content %}
+<div class="container-fluid">
+  <div class="header-section">
+    <h2>Admin Details:</h2>
+    <div class="card w-75 m-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ admin.username }}</h5>
+        <hr>
+        <p class="card-text"> 
+          <strong>Admin First Name:</strong> {{ admin.first_name }}
+        </p>
+        <p class="card-text"> 
+          <strong>Admin Last Name:</strong> {{ admin.last_name }}
+        </p>
+        <p class="card-text"> 
+          <strong>Admin Email:</strong> {{ admin.email }}
+        </p>
+        <a href="{% url 'admin_list' %}" class="btn btn-secondary">Back</a>
+        <a href="{% url 'update_admin' admin.username %}" class="btn btn-secondary">Update</a>
+        <a href="{% url 'delete_admin' admin.username %}" class="btn btn-danger">Delete</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

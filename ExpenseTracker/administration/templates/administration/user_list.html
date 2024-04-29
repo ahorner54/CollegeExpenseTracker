@@ -1,0 +1,51 @@
+{% extends '../admin_generic.html' %}
+
+{% block title %}
+  <title>Home</title>
+{% endblock title %}
+
+
+{% block content %}
+<div class="container-fluid">
+  <div class="header-section">
+    <h1 style="margin-top: 0px">User List</h1>
+    <p>
+      View and edit Users Here
+    </p>
+  </div>
+
+  <div class="body-section">
+    <p style="margin-top: 50px; margin-bottom: 70px;">The current number of uses are: {{ number_of_users }}</p> 
+    <br>
+  </div>
+
+  <div class="table-section">
+    {% if us_list %}
+      <table class="table table-striped">
+        <thead class="table-dark">
+          <th>Username:</th>
+          <th>First Name:</th>
+          <th>Last Name:</th>
+          <th>Email:</th>
+          <th></th>
+        </thead>
+        {% for user in us_list %}
+          <tr>
+            <td>{{user.username}}</td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+            <td>{{user.email}}</td>
+            <td><a href="{% url 'user_detail' user.username %}" class="btn btn-secondary">Edit</a></td>
+          </tr>
+          {% endfor %}
+      </table>
+      {% else %}
+        <p>No Users On Record</p>
+    {% endif %}
+
+    <a href="{% url 'add_user' %}" class="btn btn-secondary">Add New User</a>
+  
+  </div>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends '../admin_generic.html' %}
+
+{% block title %}
+  <title>Admin List</title>
+{% endblock title %}
+
+
+{% block content %}
+<div class="container-fluid">
+  <div class="header-section">
+    <h1 style="margin-top: 0px">Admin List</h1>
+    <p>
+      View and edit Administrators Here
+    </p>
+  </div>
+
+  <div class="body-section">
+    <p style="margin-top: 50px; margin-bottom: 70px;">The current number of admins are: {{ number_of_admins }}</p> 
+    <br>
+  </div>
+
+  <div class="table-section">
+    {% if admin_list %}
+      <table class="table table-striped">
+        <thead class="table-dark">
+          <th>Username:</th>
+          <th>First Name:</th>
+          <th>Last Name:</th>
+          <th>Email:</th>
+          <th></th>
+        </thead>
+        {% for admin in admin_list %}
+          <tr>
+            <td>{{admin.username}}</td>
+            <td>{{admin.first_name}}</td>
+            <td>{{admin.last_name}}</td>
+            <td>{{admin.email}}</td>
+            <td><a href="{% url 'admin_detail' admin.username %}" class="btn btn-secondary">Edit</a></td>
+          </tr>
+          {% endfor %}
+      </table>
+      {% else %}
+        <p>No Administrators On Record</p>
+    {% endif %}
+
+    <a href="{% url 'add_admin' %}" class="btn btn-secondary">Add New Administrator</a>
+  
+  </div>
+    
+</div>
+{% endblock %}
