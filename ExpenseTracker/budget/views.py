@@ -1,12 +1,18 @@
 from django.shortcuts import render, redirect
+<<<<<<< HEAD
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Semester, Income, Expense
+=======
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+>>>>>>> 19b606a73ffdb94efeb41d40c186551d1535c684
 
 def home(request):
     return render(request, 'budget/home.html', {})
 
 def login_user(request):
+<<<<<<< HEAD
     return render(request, 'budget/login.html', {})
 
 def logout_user(request):
@@ -56,3 +62,23 @@ class DeleteSemester(DeleteView):
     model = Semester
     template_name = 'budget/semester_confirm_delete.html'
     success_url = reverse_lazy('home')
+=======
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.success(request, 'Username and password do not match, try again.')
+            return redirect('home')
+    else:
+        return render(request, 'budget/home.html', {})
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, 'You have been logged out successfully.')
+    return redirect('home')
+>>>>>>> 19b606a73ffdb94efeb41d40c186551d1535c684
