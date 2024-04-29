@@ -1,7 +1,8 @@
 {% extends './home.html' %}
+{% block title %}{{semester_name}}{% endblock title %}
 {%block semester %}
 
-<div class="container">
+<div class="container pt-5">
     <table class="table table-borderless">
         <tr>
             <td>Starting Balance: ${{start_bal}}</td>
@@ -11,6 +12,7 @@
     </table>
 </div>
 
+<!-- Income List with Report -->
 <div class="container pt-5 pb-3">
     {% if incomes %}
     <h2><strong>Income List: </strong></h2>
@@ -35,8 +37,9 @@
     {% endif %}
 </div>
 
-    <div class="container pt-5 pb-3">
-        {% if expenses %}
+<!-- Expense List with Report-->
+<div class="container pt-5 pb-3">
+    {% if expenses %}
         <h2><strong>Expense List: </strong></h2>
         <table class="table table-striped">
             <thead class="table-bordered"> 
@@ -56,6 +59,6 @@
                 </tr>
             {% endfor %}
         </table>   
-        {% endif %}
-    </div>
+    {% endif %}
+</div>
 {% endblock semester %}
