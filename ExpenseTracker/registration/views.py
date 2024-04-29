@@ -15,7 +15,6 @@ def register_user(request):
 
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, 'You have successfully registered and logged in.')
             return redirect('home')
         
     else:
