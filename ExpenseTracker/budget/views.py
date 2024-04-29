@@ -49,7 +49,7 @@ def semester(request, pk):
                 if expense.recurring_period == 'weekly':
                     #check if was updated in the past week
                     if (date.today() - last_updated ).days >= 7:
-                        days_since_updated = last_updated - date.today()
+                        days_since_updated = (date.today() - last_updated).days
                         times_to_update = days_since_updated // 7 # num of periods to update
 
                         #update total_expense accordingly
@@ -64,7 +64,7 @@ def semester(request, pk):
                 elif expense.recurring_period == 'biweekly':
                     #check if was updated in the past week
                     if (date.today() - last_updated).days >= 14:
-                        days_since_updated = last_updated - date.today()
+                        days_since_updated = (date.today() - last_updated).days
                         times_to_update = days_since_updated // 14 # num of periods to update
 
                         #update total_expense accordingly
@@ -81,7 +81,7 @@ def semester(request, pk):
                     days_in_month = [29,31,28,31,30,31,30,31,31,30,31,30,31]
                     #check if was updated in the past week
                     if (date.today() - last_updated).days >= days_in_month[date.today().month]:
-                        days_since_updated = last_updated - date.today()
+                        days_since_updated = (date.today() - last_updated).days
                         times_to_update = days_since_updated // days_in_month[date.today().month] # num of periods to update
 
                         #update total_expense accordingly
@@ -109,6 +109,7 @@ def semester(request, pk):
                         current_expense._date = new_date
                         current_expense.save()
             
+        
 
         #calculate total expense update
         total_income = 0
@@ -124,7 +125,7 @@ def semester(request, pk):
                 if income.recurring_period == 'weekly':
                     #check if was updated in the past week
                     if (date.today() - last_updated).days >= 7:
-                        days_since_updated = last_updated - date.today()
+                        days_since_updated = (date.today() - last_updated).days
                         times_to_update = days_since_updated // 7 # num of periods to update
 
                         #update total_expense accordingly
@@ -139,7 +140,7 @@ def semester(request, pk):
                 elif income.recurring_period == 'biweekly':
                     #check if was updated in the past week
                     if (date.today() - last_updated).days >= 14:
-                        days_since_updated = last_updated - date.today()
+                        days_since_updated = (date.today() - last_updated).days
                         times_to_update = days_since_updated // 14 # num of periods to update
 
                         #update total_expense accordingly
@@ -156,7 +157,7 @@ def semester(request, pk):
                     days_in_month = [29,31,28,31,30,31,30,31,31,30,31,30,31]
                     #check if was updated in the past week
                     if (date.today() - last_updated).days >= days_in_month[date.today().month]:
-                        days_since_updated = last_updated - date.today()
+                        days_since_updated = (date.today() - last_updated).days
                         times_to_update = days_since_updated // days_in_month[date.today().month] # num of periods to update
 
                         #update total_expense accordingly
@@ -184,10 +185,10 @@ def semester(request, pk):
                         currnet_income._date = new_date
                         currnet_income.save()
 
-
+        print(total_expense)
         
         #calculate current bal
-        current_bal = current_semester.current_balance + total_income - total_expense
+        current_bal = current_semester.current_balance + (total_income - total_expense)
         current_semester.current_balance = current_bal
         current_semester.save()
 
@@ -205,7 +206,7 @@ def semester(request, pk):
                 if income.recurring_period == 'weekly':
                     #check if was updated in the past week
                     if (end_date - last_updated ).days >= 7:
-                        days_to_end = last_updated - end_date
+                        days_to_end = (end_date - last_updated).days
                         times_to_update = days_to_end // 7 # num of periods to update
 
                         #update total_expense accordingly
@@ -214,7 +215,7 @@ def semester(request, pk):
                 elif income.recurring_period == 'biweekly':
                     #check if was updated in the past week
                     if (end_date - last_updated ).days >= 14:
-                        days_to_end = last_updated - end_date
+                        days_to_end = (end_date - last_updated).days
                         times_to_update = days_to_end // 14 # num of periods to update
 
                         #update total_expense accordingly
@@ -225,7 +226,7 @@ def semester(request, pk):
                     days_in_month = [29,31,28,31,30,31,30,31,31,30,31,30,31]
                     #check if was updated in the past week
                     if (end_date - last_updated ).days >= days_in_month[date.today().month]:
-                        days_to_end = last_updated - end_date
+                        days_to_end = (end_date - last_updated).days
                         times_to_update = days_to_end // days_in_month[date.today().month] # num of periods to update
 
                         #update total_expense accordingly
@@ -245,7 +246,7 @@ def semester(request, pk):
                 if expense.recurring_period == 'weekly':
                     #check if was updated in the past week
                     if (end_date - last_updated ).days >= 7:
-                        days_to_end = last_updated - end_date
+                        days_to_end = (end_date - last_updated).days
                         times_to_update = days_to_end // 7 # num of periods to update
 
                         #update total_expense accordingly
@@ -254,7 +255,7 @@ def semester(request, pk):
                 elif expense.recurring_period == 'biweekly':
                     #check if was updated in the past week
                     if (end_date - last_updated ).days >= 14:
-                        days_to_end = last_updated - end_date
+                        days_to_end = (end_date - last_updated).days
                         times_to_update = days_to_end // 14 # num of periods to update
 
                         #update total_expense accordingly
@@ -265,14 +266,15 @@ def semester(request, pk):
                     days_in_month = [29,31,28,31,30,31,30,31,31,30,31,30,31]
                     #check if was updated in the past week
                     if (end_date - last_updated ).days >= days_in_month[date.today().month]:
-                        days_to_end = last_updated - end_date
+                        days_to_end = (end_date - last_updated).days
                         times_to_update = days_to_end // days_in_month[date.today().month] # num of periods to update
 
                         #update total_expense accordingly
                         end_expense += (expense.amount * times_to_update)
 
+
         #calculate end bal
-        end_balance = current_bal + end_income - end_expense
+        end_balance = current_bal + (end_income - end_expense)
 
         context = {
            'semester_list': semesters,
@@ -281,7 +283,7 @@ def semester(request, pk):
             'expenses': expenses,
             'start_bal': starting_balance,
             'current_bal': current_bal,
-            'end_bal': end_balance
+            'end_bal': end_balance,
 
         }
         return render(request, 'budget/semester_view.html', context=context)
