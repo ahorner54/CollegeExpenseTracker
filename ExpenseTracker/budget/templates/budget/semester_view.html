@@ -2,6 +2,16 @@
 {%block semester %}
 
 <div class="container">
+    <table class="table table-borderless">
+        <tr>
+            <td>Starting Balance: ${{start_bal}}</td>
+            <td>Current Balance: ${{current_bal}}</td>
+            <td>Expected End Balance: ${{end_bal}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="container">
     {% if incomes %}
     <table class="table table-striped">
         <thead class="table-bordered">

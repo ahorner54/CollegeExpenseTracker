@@ -25,10 +25,19 @@ def semester(request, pk):
         semesters = Semester.objects.filter(student_id = user_pk)
         incomes = Income.objects.filter(semester_id=pk)
         expenses = Expense.objects.filter(semester_id=pk)
+        starting_balance = semesters[0].starting_balance
+
+
+        current_balance = semesters[0].starting_balance
+        end_balance = 1000.00
+
         context = {
            'semester_list': semesters,
            'incomes': incomes,
-            'expenses': expenses
+            'expenses': expenses,
+            'start_bal': starting_balance,
+            'current_bal': current_balance,
+            'end_bal': end_balance
         }
         return render(request, 'budget/semester_view.html', context=context)
 
