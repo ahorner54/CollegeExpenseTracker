@@ -1,18 +1,45 @@
 {% extends './home.html' %}
 {%block semester %}
-    <div class="container">
-        {% if incomes %}
-            {% for income in incomes %}
-                <p>{{income.amount}}</p>
-            {% endfor %}
-        {% endif %}
-    </div>
+
+<div class="container">
+    {% if incomes %}
+    <table class="table table-striped">
+        <thead class="table-bordered">
+            <th>Memo</th>
+            <th>Amount</th>
+            <th>Recurring</th>
+            <th>End Date</th>
+        </thead>
+        {% for income in incomes %}
+            <tr>
+                <td>{{income.memo}}</td>
+                <td>{{income.amount}}</td>
+                <td>{{income.recurring_period}}</td>
+                <td>{{income.end_date}}</td>
+            </tr>
+        {% endfor %}
+    </table>   
+    {% endif %}
+</div>
 
     <div class="container">
         {% if expenses %}
+        <table class="table table-striped">
+            <thead class="table-bordered"> 
+                <th>Memo</th>
+                <th>Amount</th>
+                <th>Recurring</th>
+                <th>End Date</th>
+            </thead>
             {% for expense in expenses %}
-                <p>{{expense.amount}}</p>
+                <tr>
+                    <td>{{expense.memo}}</td>
+                    <td>{{expense.amount}}</td>
+                    <td>{{expense.recurring_period}}</td>
+                    <td>{{expense.end_date}}</td>
+                </tr>
             {% endfor %}
+        </table>   
         {% endif %}
     </div>
 {% endblock semester %}
