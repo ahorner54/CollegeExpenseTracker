@@ -13,51 +13,92 @@
 
 <!-- Income List with Report -->
 <div class="container pt-5 pb-3">
-    {% if incomes %}
-    <h2><strong>Income List: </strong></h2>
-    <table class="table table-striped">
-        <thead class="table-bordered">
-            <th>Memo</th>
-            <th>Amount</th>
-            <th>Recurring</th>
-            <th>End Date</th>
-            <th style="width: 20px;"></th>
-        </thead>
-        {% for income in incomes %}
-            <tr>
-                <td>{{income.memo}}</td>
-                <td>{{income.amount}}</td>
-                <td>{{income.recurring_period}}</td>
-                <td>{{income.end_date}}</td>
-                <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="#">Update</a>
-            </tr>
-        {% endfor %}
-    </table>   
-    {% endif %}
-</div>
-
-<!-- Expense List with Report-->
-<div class="container pt-5 pb-3">
-    {% if expenses %}
-        <h2><strong>Expense List: </strong></h2>
+    <div class="row">
+        <div class="col-sm-9">
+        {% if incomes %}
+        <h2><strong>Income List: </strong></h2>
         <table class="table table-striped">
-            <thead class="table-bordered"> 
+            <thead class="table-bordered">
                 <th>Memo</th>
                 <th>Amount</th>
                 <th>Recurring</th>
                 <th>End Date</th>
                 <th style="width: 20px;"></th>
             </thead>
-            {% for expense in expenses %}
+            {% for income in incomes %}
                 <tr>
-                    <td>{{expense.memo}}</td>
-                    <td>{{expense.amount}}</td>
-                    <td>{{expense.recurring_period}}</td>
-                    <td>{{expense.end_date}}</td>
+                    <td>{{income.memo}}</td>
+                    <td>{{income.amount}}</td>
+                    <td>{{income.recurring_period}}</td>
+                    <td>{{income.end_date}}</td>
                     <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="#">Update</a>
                 </tr>
             {% endfor %}
-        </table>   
+        </table>
+        </div>
+        <div class="col-sm-3">
+            <table class="table table-borderless">
+                <thead>
+                    <th>Income Summary</th>
+                </thead>
+                <tr>
+                    <td>Weekly Income: {{income_weekly}}</td>
+                </tr>
+                <tr>
+                    <td>Biweekly Income: {{income_biweekly}}</td>
+                </tr>
+                <tr>
+                    <td>Monthly Income: {{income_monthly}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Expense List with Report-->
+<div class="container pt-5 pb-3">
+    <div class="row">
+        {% if expenses %}
+        <div class="col-sm-9">
+            <h2><strong>Expense List: </strong></h2>
+            <table class="table table-striped">
+                <thead class="table-bordered"> 
+                    <th>Memo</th>
+                    <th>Amount</th>
+                    <th>Recurring</th>
+                    <th>End Date</th>
+                    <th style="width: 20px;"></th>
+                </thead>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{expense.memo}}</td>
+                        <td>{{expense.amount}}</td>
+                        <td>{{expense.recurring_period}}</td>
+                        <td>{{expense.end_date}}</td>
+                        <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="#">Update</a>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div> 
+        <div class="col-sm-3">
+            <table class="table table-borderless">
+                <thead>
+                    <th>Expense Summary</th>
+                </thead>
+                <tr>
+                    <td>Weekly Expenses: {{expense_weekly}}</td>
+                </tr>
+                <tr>
+                    <td>Biweekly Expenses: {{expense_biweekly}}</td>
+                </tr>
+                <tr>
+                    <td>Monthly Expenses: {{expense_monthly}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
     {% endif %}
 </div>
 {% endblock semester %}

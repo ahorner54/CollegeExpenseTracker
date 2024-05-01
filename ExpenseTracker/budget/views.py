@@ -71,13 +71,9 @@ def semester(request, pk):
     if not(request.user.is_authenticated):
         return redirect('home')
     else:
-        
         user_pk = request.user.pk
         semesters = Semester.objects.filter(student_id = user_pk)
-
         current_semester = Semester.objects.get(pk=pk)
-
-
         incomes = Income.objects.filter(semester_id=pk)
         expenses = Expense.objects.filter(semester_id=pk)
         semester_name = semesters[0].semester_name
@@ -99,6 +95,23 @@ def semester(request, pk):
         #calculate end bal
         end_balance = current_bal + (end_income - end_expense)
 
+        #Get income and expense summaries
+        income_summary = {'weekly': 0, 'biweekly': 0, 'monthly': 0}
+        for income in incomes:
+            if income.is_recurring:
+                match income.recurring_period:
+                    case 'weekly': income_summary['weekly'] += income.amount
+                    case 'biweekly': income_summary['biweekly'] += income.amount
+                    case 'monthly': income_summary['monthly'] += income.amount
+
+        expense_summary = {'weekly': 0, 'biweekly': 0, 'monthly': 0} 
+        for expense in expenses:
+            if expense.is_recurring:
+                match expense.recurring_period:
+                    case 'weekly': expense_summary['weekly'] += expense.amount
+                    case 'weekly': expense_summary['biweekly'] += expense.amount
+                    case 'weekly': expense_summary['monthly'] += expense.amount
+
         context = {
            'semester_list': semesters,
            'semester_name': semester_name,
@@ -107,7 +120,12 @@ def semester(request, pk):
             'start_bal': starting_balance,
             'current_bal': current_bal,
             'end_bal': end_balance,
-
+            'income_weekly': income_summary['weekly'],
+            'income_biweekly': income_summary['biweekly'],
+            'income_monthly': income_summary['monthly'],
+            'expense_weekly': expense_summary['weekly'],
+            'expense_biweekly': expense_summary['biweekly'],
+            'expense_monthly': expense_summary['monthly'],
         }
         return render(request, 'budget/semester_view.html', context=context)
 
