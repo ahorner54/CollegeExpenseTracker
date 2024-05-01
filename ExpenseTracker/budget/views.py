@@ -134,48 +134,41 @@ def logout_user(request):
 
 def to_date_sum(moneyList):
     total_money = 0
+    #index 0 is leap year feb, rest are 1-12 for jan-dec
+    days_in_month = [29,31,28,31,30,31,30,31,31,30,31,30,31]
+
     for record in moneyList: 
         #check date to see if needs update
         if record.is_recurring:
             last_updated = record.date_last_updated
             end_date = record.end_date
+            period_days = 0
+            match record.recurring_period:
+                case 'weekly': 
+                    period_days = 7
+                case 'biweekly': 
+                    period_days = 14
 
             if last_updated > end_date:
                 continue
 
-            if record.recurring_period == 'weekly':
+            if record.recurring_period == 'weekly' or record.recurring_period == 'biweekly':
                 #check if was updated in the past week
-                if (date.today() - last_updated ).days >= 7:
+                if (date.today() - last_updated ).days >= period_days:
                     days_since_updated = (date.today() - last_updated).days
-                    times_to_update = days_since_updated // 7 # num of periods to update
+                    times_to_update = days_since_updated // period_days # num of periods to update
 
                     #update total_expense accordingly
                     total_money += (record.amount * times_to_update)
 
                     #set last_updated value to times_to_update * 7
-                    new_date = record.date_last_updated + timedelta(days=(7*times_to_update))
-                    current_record = Expense.objects.get(pk=record.pk)
-                    current_record._date = new_date
-                    current_record.save()
-
-            elif record.recurring_period == 'biweekly':
-                #check if was updated in the past week
-                if (date.today() - last_updated).days >= 14:
-                    days_since_updated = (date.today() - last_updated).days
-                    times_to_update = days_since_updated // 14 # num of periods to update
-
-                    #update total_expense accordingly
-                    total_money += (record.amount * times_to_update)
-
-                    #set last_updated value to times_to_update * 14
-                    new_date = record.date_last_updated + timedelta(days=(14*times_to_update))
+                    new_date = record.date_last_updated + timedelta(days=(period_days*times_to_update))
                     current_record = Expense.objects.get(pk=record.pk)
                     current_record._date = new_date
                     current_record.save()
 
             elif record.recurring_period == 'monthly':
-                #index 0 is leap year feb, rest are 1-12 for jan-dec
-                days_in_month = [29,31,28,31,30,31,30,31,31,30,31,30,31]
+                
                 #check if was updated in the past week
                 if (date.today() - last_updated).days >= days_in_month[date.today().month]:
                     days_since_updated = (date.today() - last_updated).days
@@ -209,37 +202,36 @@ def to_date_sum(moneyList):
 
 def end_sum(moneyList):
     total_money = 0
+    days_in_month = [29,31,28,31,30,31,30,31,31,30,31,30,31] #index 0 is leap year feb, rest are 1-12 for jan-dec
+
     for record in moneyList: 
         #check date to see if needs update
         if record.is_recurring:
             last_updated = record.date_last_updated
             end_date = record.end_date
             amount = record.amount
+            period_days = 0
+            match record.recurring_period:
+                case 'weekly': 
+                    period_days = 7
+                case 'biweekly': 
+                    period_days = 14
 
             if last_updated > end_date:
                 continue
 
-            if record.recurring_period == 'weekly':
+            if record.recurring_period == 'weekly' or record.recurring_period == 'biweekly':
                 #check if was updated in the past week
-                if (end_date - last_updated ).days >= 7:
+                if (end_date - last_updated ).days >= period_days:
                     days_to_end = (end_date - last_updated).days
-                    times_to_update = days_to_end // 7 # num of periods to update
-
-                    #update total_expense accordingly
-                    total_money += (amount * times_to_update)
-
-            elif record.recurring_period == 'biweekly':
-                #check if was updated in the past week
-                if (end_date - last_updated ).days >= 14:
-                    days_to_end = (end_date - last_updated).days
-                    times_to_update = days_to_end // 14 # num of periods to update
+                    times_to_update = days_to_end // period_days # num of periods to update
 
                     #update total_expense accordingly
                     total_money += (amount * times_to_update)
 
             elif record.recurring_period == 'monthly':
                 #index 0 is leap year feb, rest are 1-12 for jan-dec
-                days_in_month = [29,31,28,31,30,31,30,31,31,30,31,30,31]
+                
                 #check if was updated in the past week
                 if (end_date - last_updated ).days >= days_in_month[date.today().month]:
                     days_to_end = (end_date - last_updated).days
