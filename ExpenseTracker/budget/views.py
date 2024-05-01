@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from .models import Semester, Income, Expense
 from datetime import date, timedelta
+from django import forms 
 
 def home(request):
     if request.user.is_authenticated:
@@ -56,16 +57,41 @@ class DeleteExpense(DeleteView):
     template_name = 'budget/expense_confirm_delete.html'
     success_url = reverse_lazy('home')
 
-class CreateSemester(CreateView):
-    model = Semester
-    fields = ['student', 'semester_name', 'start_date', 'end_date', 'starting_balance', 'semester_tuition', 'current_balance']
-    template_name = 'budget/semester_form.html'
-    success_url = reverse_lazy('home')
+# class CreateSemester(LoginRequiredMixin, CreateView):
+#     model = Semester
+#     fields = ['semester_name', 'start_date', 'end_date', 'starting_balance', 'semester_tuition', 'current_balance']
+#     template_name = 'budget/semester_form.html'
+#     success_url = reverse_lazy('home')
+
+def CreateSemester(request):
+    if request.method == 'POST':
+        start_bal = request.POST.get('starting_balance'),
+        sem_tuit = request.POST.get('semester_tuition'),
+        cur_bal = (float(start_bal[0]) - float(sem_tuit[0]))
+
+
+        semester = Semester.objects.create(
+            student_id = request.user,
+            semester_name = request.POST.get('semester_name'),
+            start_date = request.POST.get('start_date'),
+            end_date = request.POST.get('end_date'),
+            starting_balance = float(start_bal[0]),
+            semester_tuition = float(sem_tuit[0]),
+            current_balance = cur_bal
+        )
+        semester.save()
+        return redirect('home')
+    return render(request, 'budget/semester_form.html')
 
 class DeleteSemester(DeleteView):
     model = Semester
     template_name = 'budget/semester_confirm_delete.html'
     success_url = reverse_lazy('home')
+
+class SemesterForm(forms.ModelForm):
+    class Meta:
+        model = Semester
+        fields = ['semester_name', 'start_date', 'end_date', 'starting_balance', 'semester_tuition', 'current_balance']
 
 def semester(request, pk):
     if not(request.user.is_authenticated):
@@ -81,8 +107,8 @@ def semester(request, pk):
 
         incomes = Income.objects.filter(semester_id=pk)
         expenses = Expense.objects.filter(semester_id=pk)
-        semester_name = semesters[0].semester_name
-        starting_balance = semesters[0].starting_balance
+        semester_name = current_semester.semester_name
+        starting_balance = current_semester.starting_balance
 
         #calculate to date expenses and income
         to_date_expense = to_date_sum(expenses)
@@ -248,3 +274,6 @@ def end_sum(moneyList):
                     #update total_expense accordingly
                     total_money += (amount * times_to_update)
     return total_money
+
+
+    

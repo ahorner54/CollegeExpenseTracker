@@ -6,4 +6,5 @@ urlpatterns = [
     path('semester/<int:pk>', views.semester, name='semester'),
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
+    path('semester_form/', views.CreateSemester, name='semester_form'),
 ]
