@@ -152,10 +152,18 @@ def to_date_sum(moneyList):
             if last_updated > end_date:
                 continue
 
+            #determine whether date.today() is later than end date, if so,
+            # update based on last_update - end_date rather than
+            # last_update - date.today()
+            # This allows for balance to update if user has not checked in a while and checks after semester end
+            period_end = date.today()
+            if date.today() > end_date:
+                period_end = end_date
+
             if record.recurring_period == 'weekly' or record.recurring_period == 'biweekly':
                 #check if was updated in the past week
-                if (date.today() - last_updated ).days >= period_days:
-                    days_since_updated = (date.today() - last_updated).days
+                if (period_end - last_updated ).days >= period_days:
+                    days_since_updated = (period_end - last_updated).days
                     times_to_update = days_since_updated // period_days # num of periods to update
 
                     #update total_expense accordingly
@@ -168,11 +176,10 @@ def to_date_sum(moneyList):
                     current_record.save()
 
             elif record.recurring_period == 'monthly':
-                
                 #check if was updated in the past week
-                if (date.today() - last_updated).days >= days_in_month[date.today().month]:
-                    days_since_updated = (date.today() - last_updated).days
-                    times_to_update = days_since_updated // days_in_month[date.today().month] # num of periods to update
+                if (period_end - last_updated).days >= days_in_month[period_end.month]:
+                    days_since_updated = (period_end - last_updated).days
+                    times_to_update = days_since_updated // days_in_month[period_end.month] # num of periods to update
 
                     #update total_expense accordingly
                     total_money += (record.amount * times_to_update)
@@ -230,12 +237,10 @@ def end_sum(moneyList):
                     total_money += (amount * times_to_update)
 
             elif record.recurring_period == 'monthly':
-                #index 0 is leap year feb, rest are 1-12 for jan-dec
-                
                 #check if was updated in the past week
-                if (end_date - last_updated ).days >= days_in_month[date.today().month]:
+                if (end_date - last_updated ).days >= days_in_month[end_date.month]:
                     days_to_end = (end_date - last_updated).days
-                    times_to_update = days_to_end // days_in_month[date.today().month] # num of periods to update
+                    times_to_update = days_to_end // days_in_month[end_date.month] # num of periods to update
 
                     #update total_expense accordingly
                     total_money += (amount * times_to_update)
