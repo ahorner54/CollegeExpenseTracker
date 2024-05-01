@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from .models import Semester, Income, Expense
 from datetime import date, timedelta
-from dateutil import relativedelta
+from dateutil.relativedelta import relativedelta
 
 def home(request):
     if request.user.is_authenticated:
@@ -77,8 +77,8 @@ def semester(request, pk):
         current_semester = Semester.objects.get(pk=pk)
         incomes = Income.objects.filter(semester_id=pk)
         expenses = Expense.objects.filter(semester_id=pk)
-        semester_name = semesters[0].semester_name
-        starting_balance = semesters[0].starting_balance
+        semester_name = current_semester.semester_name
+        starting_balance = current_semester.starting_balance
         tuition = current_semester.semester_tuition
 
         #calculate to date expenses and income
@@ -200,31 +200,13 @@ def to_date_sum(moneyList, is_income):
 
             elif record.recurring_period == 'monthly':
                 #check if was updated in the past week
-                if (period_end - last_updated).days >= days_in_month[period_end.month]:
-                    days_since_updated = (period_end - last_updated).days
-                    times_to_update = days_since_updated // days_in_month[period_end.month] # num of periods to update
+                if relativedelta(period_end, last_updated).months >= 1:
+                    months_since_updated = relativedelta(period_end, last_updated).months
 
                     #update total_expense accordingly
                     total_money += (record.amount * times_to_update)
 
-                    #set last_updated value to times_to_update * month
-                    current_month = record.date_last_updated.month
-                    current_year = record.date_last_updated.year
-                    days_to_add = 0
-                    for i in range(0,times_to_update):
-                        #check february of leap year
-                        if(current_month == 2 and (current_year % 4 == 0 and not(current_year % 400 == 0))):
-                            days_to_add += days_in_month[0]
-                        else:
-                            days_to_add += days_in_month[current_month]
-                        #add to the month
-                        currnet_month += 1
-                        #if month == 13 update year and month
-                        if current_month == 13:
-                            current_year += 1
-                            current_month=1
-                        
-                    new_date = record.date_last_updated + timedelta(days=(days_to_add))
+                    new_date = record.date_last_updated + relativedelta(months=months_since_updated)
                     if is_income:
                         current_record = Income.objects.get(pk=record.pk)
                     else:
