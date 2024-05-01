@@ -76,8 +76,7 @@ def semester(request, pk):
         semesters = Semester.objects.filter(student_id = user_pk)
 
         current_semester = Semester.objects.get(pk=pk)
-        #current_semester.current_balance = 30000
-        #current_semester.save()
+
 
         incomes = Income.objects.filter(semester_id=pk)
         expenses = Expense.objects.filter(semester_id=pk)
@@ -85,8 +84,8 @@ def semester(request, pk):
         starting_balance = semesters[0].starting_balance
 
         #calculate to date expenses and income
-        to_date_expense = to_date_sum(expenses)
-        to_date_income = to_date_sum(incomes)
+        to_date_expense = to_date_sum(expenses, False)
+        to_date_income = to_date_sum(incomes, True)
 
         #calculate current bal
         current_bal = current_semester.current_balance + (to_date_income - to_date_expense)
@@ -132,7 +131,7 @@ def logout_user(request):
     messages.success(request, 'You have been logged out successfully.')
     return redirect('home')
 
-def to_date_sum(moneyList):
+def to_date_sum(moneyList, is_income):
     total_money = 0
     #index 0 is leap year feb, rest are 1-12 for jan-dec
     days_in_month = [29,31,28,31,30,31,30,31,31,30,31,30,31]
@@ -142,7 +141,7 @@ def to_date_sum(moneyList):
         if record.is_recurring:
             last_updated = record.date_last_updated
             end_date = record.end_date
-            period_days = 0
+            period_days = 200
             match record.recurring_period:
                 case 'weekly': 
                     period_days = 7
@@ -171,8 +170,11 @@ def to_date_sum(moneyList):
 
                     #set last_updated value to times_to_update * 7
                     new_date = record.date_last_updated + timedelta(days=(period_days*times_to_update))
-                    current_record = Expense.objects.get(pk=record.pk)
-                    current_record._date = new_date
+                    if is_income:
+                        current_record = Income.objects.get(pk=record.pk)
+                    else:
+                        current_record = Expense.objects.get(pk=record.pk)
+                    current_record.date_last_updated = new_date
                     current_record.save()
 
             elif record.recurring_period == 'monthly':
@@ -202,8 +204,11 @@ def to_date_sum(moneyList):
                             current_month=1
                         
                     new_date = record.date_last_updated + timedelta(days=(days_to_add))
-                    current_record = Expense.objects.get(pk=record.pk)
-                    current_record._date = new_date
+                    if is_income:
+                        current_record = Income.objects.get(pk=record.pk)
+                    else:
+                        current_record = Expense.objects.get(pk=record.pk)
+                    current_record.date_last_updated = new_date
                     current_record.save()
     return total_money
 

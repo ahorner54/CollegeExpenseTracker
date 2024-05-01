@@ -19,7 +19,7 @@ class Income(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     is_recurring = models.BooleanField()
     #User Does Not Enter date_last_updated, it is automatically generated
-    date_last_updated = models.DateField(auto_now=True)
+    date_last_updated = models.DateField(auto_now_add=True)
     end_date = models.DateField()
     recurring_period = models.CharField(max_length = 20)
     memo = models.CharField(max_length=200, null=True)
@@ -30,7 +30,7 @@ class Expense(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     is_recurring = models.BooleanField()
     #User Does Not Enter date_last_updated, it is automatically generated
-    date_last_updated = models.DateField(auto_now=True)
+    date_last_updated = models.DateField(auto_now_add=True)
     end_date = models.DateField()
     recurring_period = models.CharField(max_length = 20)
     memo = models.CharField(max_length=200, null=True)
