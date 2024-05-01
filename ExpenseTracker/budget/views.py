@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from .models import Semester, Income, Expense
 from datetime import date, timedelta
+from dateutil import relativedelta
 
 def home(request):
     if request.user.is_authenticated:
@@ -78,6 +79,7 @@ def semester(request, pk):
         expenses = Expense.objects.filter(semester_id=pk)
         semester_name = semesters[0].semester_name
         starting_balance = semesters[0].starting_balance
+        tuition = current_semester.semester_tuition
 
         #calculate to date expenses and income
         to_date_expense = to_date_sum(expenses, False)
@@ -109,8 +111,8 @@ def semester(request, pk):
             if expense.is_recurring:
                 match expense.recurring_period:
                     case 'weekly': expense_summary['weekly'] += expense.amount
-                    case 'weekly': expense_summary['biweekly'] += expense.amount
-                    case 'weekly': expense_summary['monthly'] += expense.amount
+                    case 'biweekly': expense_summary['biweekly'] += expense.amount
+                    case 'monthly': expense_summary['monthly'] += expense.amount
 
         context = {
            'semester_list': semesters,
@@ -126,6 +128,7 @@ def semester(request, pk):
             'expense_weekly': expense_summary['weekly'],
             'expense_biweekly': expense_summary['biweekly'],
             'expense_monthly': expense_summary['monthly'],
+            'tuition': tuition,
         }
         return render(request, 'budget/semester_view.html', context=context)
 

@@ -28,7 +28,7 @@
             {% for income in incomes %}
                 <tr>
                     <td>{{income.memo}}</td>
-                    <td>{{income.amount}}</td>
+                    <td>${{income.amount}}</td>
                     <td>{{income.recurring_period}}</td>
                     <td>{{income.end_date}}</td>
                     <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="#">Update</a>
@@ -42,13 +42,13 @@
                     <th>Income Summary</th>
                 </thead>
                 <tr>
-                    <td>Weekly Income: {{income_weekly}}</td>
+                    <td>Weekly Income: ${{income_weekly}}</td>
                 </tr>
                 <tr>
-                    <td>Biweekly Income: {{income_biweekly}}</td>
+                    <td>Biweekly Income: ${{income_biweekly}}</td>
                 </tr>
                 <tr>
-                    <td>Monthly Income: {{income_monthly}}</td>
+                    <td>Monthly Income: ${{income_monthly}}</td>
                 </tr>
             </table>
         </div>
@@ -73,7 +73,7 @@
                 {% for expense in expenses %}
                     <tr>
                         <td>{{expense.memo}}</td>
-                        <td>{{expense.amount}}</td>
+                        <td>${{expense.amount}}</td>
                         <td>{{expense.recurring_period}}</td>
                         <td>{{expense.end_date}}</td>
                         <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="#">Update</a>
@@ -87,13 +87,16 @@
                     <th>Expense Summary</th>
                 </thead>
                 <tr>
-                    <td>Weekly Expenses: {{expense_weekly}}</td>
+                    <td>Weekly Expenses: ${{expense_weekly}}</td>
                 </tr>
                 <tr>
-                    <td>Biweekly Expenses: {{expense_biweekly}}</td>
+                    <td>Biweekly Expenses: ${{expense_biweekly}}</td>
                 </tr>
                 <tr>
-                    <td>Monthly Expenses: {{expense_monthly}}</td>
+                    <td>Monthly Expenses: ${{expense_monthly}}</td>
+                </tr>
+                <tr>
+                    <td>Semester Tuition: ${{tuition}}</td>
                 </tr>
             </table>
         </div>
