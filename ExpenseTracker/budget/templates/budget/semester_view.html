@@ -1,8 +1,12 @@
 {% extends './home.html' %}
+{% load static %}
 {% block title %}{{semester_name}}{% endblock title %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/semester_tables.css' %}" />
+{% endblock style %}
 {%block semester %}
 <div class="container pt-5">
-    <table class="table table-borderless">
+    <table class="table overall-summary">
         <tr>
             <td>Starting Balance: ${{start_bal}}</td>
             <td>Current Balance: ${{current_bal}}</td>
@@ -10,8 +14,6 @@
         </tr>
     </table>
 </div>
-
-<p>test expense last_updated: {{ts_lu}}</p>
 
 <!-- Income List with Report -->
 <div class="container pt-5 pb-3">
@@ -39,7 +41,7 @@
         </table>
         </div>
         <div class="col-sm-3">
-            <table class="table table-borderless">
+            <table class="table  summary">
                 <thead>
                     <th>Income Summary</th>
                 </thead>
@@ -47,7 +49,7 @@
                     <td>Weekly Income: ${{income_weekly}}</td>
                 </tr>
                 <tr>
-                    <td>Biweekly Income: ${{income_biweekly}}</td>
+                    <td>Bi-weekly Income: ${{income_biweekly}}</td>
                 </tr>
                 <tr>
                     <td>Monthly Income: ${{income_monthly}}</td>
@@ -55,6 +57,10 @@
             </table>
         </div>
     </div>
+    {% else %}
+    <h4><strong>There are no current incomes associated with this semester.
+        Click the 'Create Income' link in the navbar to add your first income to this semester!
+    </strong></h4>
     {% endif %}
 </div>
 
@@ -84,7 +90,7 @@
             </table>
         </div> 
         <div class="col-sm-3">
-            <table class="table table-borderless">
+            <table class="table table-bordered summary">
                 <thead>
                     <th>Expense Summary</th>
                 </thead>
@@ -92,7 +98,7 @@
                     <td>Weekly Expenses: ${{expense_weekly}}</td>
                 </tr>
                 <tr>
-                    <td>Biweekly Expenses: ${{expense_biweekly}}</td>
+                    <td>Bi-weekly Expenses: ${{expense_biweekly}}</td>
                 </tr>
                 <tr>
                     <td>Monthly Expenses: ${{expense_monthly}}</td>
@@ -103,7 +109,10 @@
             </table>
         </div>
     </div>
-
+    {% else %}
+    <h4><strong>There are no current expenses associated with this semester.
+        Click the 'Create Expense' link in the navbar to add your first expense to this semester!
+    </strong></h4>
     {% endif %}
 </div>
 {% endblock semester %}

@@ -81,9 +81,6 @@ def semester(request, pk):
         starting_balance = current_semester.starting_balance
         tuition = current_semester.semester_tuition
 
-        test_expense = Expense.objects.get(memo='test expense')
-
-        testexpenselu = test_expense.date_last_updated
         #calculate to date expenses and income
         to_date_expense = to_date_sum(expenses, False)
         to_date_income = to_date_sum(incomes, True)
@@ -132,7 +129,6 @@ def semester(request, pk):
             'expense_biweekly': expense_summary['biweekly'],
             'expense_monthly': expense_summary['monthly'],
             'tuition': tuition,
-            'ts_lu': testexpenselu
         }
         return render(request, 'budget/semester_view.html', context=context)
 
