@@ -81,6 +81,9 @@ def semester(request, pk):
         starting_balance = current_semester.starting_balance
         tuition = current_semester.semester_tuition
 
+        test_expense = Expense.objects.get(memo='test expense')
+
+        testexpenselu = test_expense.date_last_updated
         #calculate to date expenses and income
         to_date_expense = to_date_sum(expenses, False)
         to_date_income = to_date_sum(incomes, True)
@@ -129,6 +132,7 @@ def semester(request, pk):
             'expense_biweekly': expense_summary['biweekly'],
             'expense_monthly': expense_summary['monthly'],
             'tuition': tuition,
+            'ts_lu': testexpenselu
         }
         return render(request, 'budget/semester_view.html', context=context)
 
@@ -154,8 +158,6 @@ def logout_user(request):
 
 def to_date_sum(moneyList, is_income):
     total_money = 0
-    #index 0 is leap year feb, rest are 1-12 for jan-dec
-    days_in_month = [29,31,28,31,30,31,30,31,31,30,31,30,31]
 
     for record in moneyList: 
         #check date to see if needs update
@@ -172,10 +174,8 @@ def to_date_sum(moneyList, is_income):
             if last_updated > end_date:
                 continue
 
-            #determine whether date.today() is later than end date, if so,
-            # update based on last_update - end_date rather than
-            # last_update - date.today()
-            # This allows for balance to update if user has not checked in a while and checks after semester end
+            #determine whether date.today() is later than end date, if so, update based on last_update - end_date rather than
+            # last_update - date.today(); this allows for balance to update if user has not checked in a while and checks after semester end
             period_end = date.today()
             if date.today() > end_date:
                 period_end = end_date
@@ -204,7 +204,7 @@ def to_date_sum(moneyList, is_income):
                     months_since_updated = relativedelta(period_end, last_updated).months
 
                     #update total_expense accordingly
-                    total_money += (record.amount * times_to_update)
+                    total_money += (record.amount * months_since_updated)
 
                     new_date = record.date_last_updated + relativedelta(months=months_since_updated)
                     if is_income:
@@ -213,11 +213,11 @@ def to_date_sum(moneyList, is_income):
                         current_record = Expense.objects.get(pk=record.pk)
                     current_record.date_last_updated = new_date
                     current_record.save()
+
     return total_money
 
 def end_sum(moneyList):
     total_money = 0
-    days_in_month = [29,31,28,31,30,31,30,31,31,30,31,30,31] #index 0 is leap year feb, rest are 1-12 for jan-dec
 
     for record in moneyList: 
         #check date to see if needs update
@@ -246,10 +246,10 @@ def end_sum(moneyList):
 
             elif record.recurring_period == 'monthly':
                 #check if was updated in the past week
-                if (end_date - last_updated ).days >= days_in_month[end_date.month]:
-                    days_to_end = (end_date - last_updated).days
-                    times_to_update = days_to_end // days_in_month[end_date.month] # num of periods to update
+                if relativedelta(end_date, last_updated).months >= 1:
+                    months_to_end = relativedelta(end_date, last_updated).months
 
-                    #update total_expense accordingly
-                    total_money += (amount * times_to_update)
+                    #update total_money accordingly
+                    total_money += (amount * months_to_end)
+
     return total_money
