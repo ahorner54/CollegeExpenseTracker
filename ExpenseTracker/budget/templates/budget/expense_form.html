@@ -1,0 +1,62 @@
+{% extends '../base.html' %}
+{% block title %}Create Expense{% endblock title %}
+{% block content %}
+<div class="container pt-5">
+  <h1>Create New Expense</h1>
+  <div class="card">
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+        <div class="col-sm-6 d-flex justify-content-end">
+          {% if semester_list %}
+              <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      Select Expense
+                  </button>
+                  <ul class="dropdown-menu">
+                      {% for semester in semester_list %}
+                          <li><a href="{% url 'semester' semester.pk %}">{{ semester.semester_name }}</a></li>
+                      {% endfor %}
+                  </ul>
+              </div>
+          {% endif %}
+      </div>
+        <div class="form-group">
+          <label for="amount">Amount:</label>
+          <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="is_recurring">Is Recurring:</label>
+          <input type="checkbox" id="is_recurring" name="is_recurring">
+        </div>
+        <div class="form-group" id="recurring_period">
+          <label for="recurring_period">Recurring Period:</label>
+          <select class="form-control" id="recurring_period" name="recurring_period">
+            <option value="weekly">Weekly</option>
+            <option value="bi-weekly">Bi-Weekly</option>
+            <option value="monthly">Monthly</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="memo">Memo:</label>
+          <textarea class="form-control" id="memo" name="memo"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const isRecurringCheckbox = document.getElementById('is_recurring');
+  const recurringPeriodSelect = document.getElementById('recurring_period');
+
+  isRecurringCheckbox.addEventListener('change', function () {
+    recurringPeriodSelect.style.display = isRecurringCheckbox.checked ? 'block' : 'none';
+  });
+
+  // Hide recurring period select initially
+  recurringPeriodSelect.style.display = isRecurringCheckbox.checked ? 'block' : 'none';
+});
+</script>
+{% endblock content %}
