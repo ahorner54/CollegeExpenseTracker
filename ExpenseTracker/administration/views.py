@@ -17,7 +17,7 @@ def home(request):
 def user_view(request, pk):
     if request.user.is_staff:
         user = User.objects.get(username=pk)
-        return render(request, "administration/user.html", context={"user": user})
+        return render(request, "administration/user.html", context={"selected_user": user})
     else: 
         return redirect('home')
 

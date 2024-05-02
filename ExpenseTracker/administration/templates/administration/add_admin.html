@@ -6,11 +6,11 @@
 
 
 {% block content %}
-<div class="container-fluid">
+<div class="container admin-form">
   <div class="header-section">
     <div class="mt-4 p-5">
       <h1>Add New Admin:</h1>
-      <form method="POST" action="">
+      <form method="POST" action="" class="admin-form">
         {% csrf_token %}
 
         {{form.as_p}}
