@@ -5,3 +5,14 @@
     left: 0;
     width: 100%;
 }
+
+.login-input {
+    width: 40%;
+    padding-top: 20px;
+}
+
+.login-input p {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
