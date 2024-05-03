@@ -1,0 +1,46 @@
+.container {
+    margin-top: 40px;
+}
+
+.card {
+    width: 500px;
+    align-items: center;
+    padding-top: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-control {
+    width: 300px;
+}
+
+form a {
+    margin-left: 20px;
+}
+
+.delete-div {
+    margin-top: 30px;
+}
+
+.delete-card {
+    padding: 20px;
+    width: 600px;
+}
+
+.delete-card-body {
+    margin: 0;
+    padding: 0;
+}
+
+.delete-card-body p {
+    padding-left: 50px;
+    font-size: 18px;
+}
+
+.delete-card-body .warning {
+    font-style: italic;
+    font-weight: 500;
+}
+
+form {
+    padding-left: 50px;
+}

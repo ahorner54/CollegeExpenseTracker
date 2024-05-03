@@ -4,19 +4,23 @@
   <title>Update Account</title>
 {% endblock title %}
 
+{% block style %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/account.css'%}"/>
+{% endblock style %}
+
 
 {% block content %}
 <div class="container d-flex justify-content-center">
   <div class="card">
-    <h2>Update Account: {{ selected_user.username }}</h2>
+    <h3>Update Account: {{ current_user.username }}</h3>
       <div class="card-body">
         <form method="POST" action="">
           {% csrf_token %}
           {{form.as_p}}
           <button type="submit" class="btn btn-primary">Update Account</button>
-          
+          <a class="btn btn-danger" href="{% url 'delete_account' user.username %}">Delete Account</a>
         </form>
-        <a class="btn btn-danger" href="{% url 'delete_account' user.username %}">Delete Account</a>
       </div>
   </div>
 </div>
