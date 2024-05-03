@@ -1,6 +1,7 @@
 {% extends './home.html' %}
 {% block title %}{{semester_name}}{% endblock title %}
 {%block semester %}
+<a class="btn" href="{% url 'delete_semester' current_semester %}">Delete Sem</a>
 <div class="container pt-5">
     <table class="table table-borderless">
         <tr>
@@ -32,7 +33,7 @@
                 <td>{{income.amount}}</td>
                 <td>{{income.recurring_period}}</td>
                 <td>{{income.end_date}}</td>
-                <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="#">Delete</a>
+                <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="{% url 'stop_income' income.pk%}">Stop Recur</a>
             </tr>
         {% endfor %}
     </table>   
@@ -61,7 +62,7 @@
                     <td>{{expense.amount}}</td>
                     <td>{{expense.recurring_period}}</td>
                     <td>{{expense.end_date}}</td>
-                    <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="#">Delete</a>
+                    <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="{% url 'stop_expense' expense.pk %}">Stop Recur</a>
                 </tr>
             {% endfor %}
         </table>   
