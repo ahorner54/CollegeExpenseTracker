@@ -3,16 +3,24 @@
 {% block title %}Home{% endblock title %}
 {% load static %}
 {% block style %}
+    <link rel="stylesheet" href="{% static 'css/home_styles.css' %}" />
 {% endblock style %}
 
 {% block content %}
     {% if user.is_authenticated %}
-    <div class="container pt-5">
+    {% if not current_semester %}
+        <div class="container justify-content-center welcome-head">
+            <h2>Welcome to College Expense Tracker!</h2>
+            <p class="welcome-body">Select a semester or create a semester to begin tracking your college expenses.</p>
+        </div>
+    {% endif %}
+    {% block semester_name %}{% endblock semester_name%}
+    <div class="container">
         <div class="row">
             <div class="col-sm-6 d-flex justify-content-end">
 
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Select Semester
                     </button>
                     <ul class="dropdown-menu">
@@ -23,8 +31,12 @@
                 </div>
 
             </div>
-            <div class="col-sm-6 d-flex justify-content-left">
-            <a class="btn btn-secondary" style="width: 150px;" href={% url 'semester_form' %}>Create Semester</a>
+            <div class="col-sm-4 d-flex justify-content-left">
+            <a class="btn btn-primary" style="width: 150px;" href={% url 'semester_form' %}>Create Semester</a>
+            
+            </div>
+            <div class="col-sm-2 d-flex justify-content-end">
+                {% block deletebtn%}{% endblock deletebtn %}
             </div>
         </div>
     </div>
@@ -32,10 +44,14 @@
         {% endblock semester %}
 
     {% else %}
-        <div class="container login-input">
+    <div class="container d-flex justify-content-center login-input">
+        <div class="card login-card">
             <p>Welcome to College Expense Tracker! Please log in to track your accounts.</p>
+            <div class="card-body">
             {% include './login.html' %}
+            </div>
         </div>
+    </div>
     {% endif %}
 
 {% endblock content%}

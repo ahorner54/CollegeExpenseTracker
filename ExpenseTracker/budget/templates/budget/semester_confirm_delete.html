@@ -1,13 +1,26 @@
 {% extends "base.html" %}
 
+{% block title %} {{semester.semester_name}}{% endblock title %}
+
+{% block style %}
+{% load static %}
+  <link rel="stylesheet" href="{% static 'css/form.css' %}" />
+{% endblock style %}
+
 {% block content %}
 
-<h1>Delete Semester: {{ semester.semester_name }}</h1>
-<p>Are you sure you want to delete the semester?</p>
+<div class="container delete-div d-flex justify-content-center">
+  <div class="card delete-card">
+    <h1>Delete Semester: {{ semester.semester_name }}</h1>
 
-<form action="" method="POST">
-  {% csrf_token %}
-  <input type="submit" action="" value="Yes, delete.">
-</form>
-
+    <div class="card-body delete-card-body">
+      <p style="margin-top: 5px">Are you sure you want to delete the semester?</p>
+      <p class='warning'>All associated Income and Expense records will be permanently erased.</p>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" action="" value="Yes, delete." class="btn btn-danger">
+      </form>
+      </div>
+  </div>
+</div>
 {% endblock %}
