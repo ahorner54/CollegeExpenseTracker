@@ -1,0 +1,22 @@
+{% extends '../base.html' %}
+
+{% block title %}
+  <title>Update Account</title>
+{% endblock title %}
+
+
+{% block content %}
+<div class="container d-flex justify-content-center">
+  <div class="card">
+    <h2>Update Account: {{ selected_user.username }}</h2>
+      <div class="card-body">
+        <form method="POST" action="">
+          {% csrf_token %}
+          {{form.as_p}}
+          <button type="submit" class="btn btn-primary">Update Account</button>\
+          <a class="btn btn-danger" href="#">Delete Account</a>
+        </form>
+      </div>
+  </div>
+</div>
+{% endblock %}
