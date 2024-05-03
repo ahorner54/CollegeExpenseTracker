@@ -1,6 +1,7 @@
 from pyexpat.errors import messages
 from django.shortcuts import redirect, render
-from .forms import AddUserForm, AddAdminForm
+from .forms import AddUserForm, UpdateUserForm
+from django.contrib.auth.models import Group
 
 # Create your views here.
 from django.views import generic
@@ -27,6 +28,8 @@ def add_user(request):
         if request.method == "POST" :
             if form.is_valid():
                 new_user = form.save()
+                student_group = Group.objects.get(name='Student')
+                new_user.groups.add(student_group.id)
                 return redirect("administration_home")
         return render(request, "administration/add_user.html", {"form": form})
     else: 
@@ -35,7 +38,7 @@ def add_user(request):
 def update_user(request, pk):
     if request.user.is_staff:
         current_user = User.objects.get(username=pk)
-        form = AddUserForm(request.POST or None, instance = current_user)
+        form = UpdateUserForm(request.POST or None, instance = current_user)
         if request.method == "POST":
             if form.is_valid():
                 form.save()
@@ -49,12 +52,6 @@ def delete_user(request, pk):
         user = User.objects.get(username = pk)
         user.delete()
         return redirect("administration_home")
-    else: 
-        return redirect('home')
-    
-def userForm(request):
-    if request.user.is_staff:
-        return render(request, 'administration/user_form.html', {})
     else: 
         return redirect('home')
 
@@ -76,13 +73,13 @@ def admin_view(request, pk):
 
 def add_admin(request):
     if request.user.is_staff:
-        form = AddAdminForm(request.POST or None)
+        form = AddUserForm(request.POST or None)
         if request.method == "POST" :
             if form.is_valid():
                 new_admin = form.save()
-                # messages.success(
-                #     request, "A new User record was added successfully"
-                # )
+                new_admin.is_staff = True
+                admin_group = Group.objects.get(name="Administration")
+                new_admin.groups.add(admin_group.id)
                 return redirect("admin_list")
         return render(request, "administration/add_admin.html", {"form": form})
     else: 
@@ -91,13 +88,10 @@ def add_admin(request):
 def update_admin(request, pk):
     if request.user.is_staff:
         current_admin = User.objects.get(username=pk)
-        form = AddAdminForm(request.POST or None, instance = current_admin)
+        form = UpdateUserForm(request.POST or None, instance = current_admin)
         if request.method == "POST":
             if form.is_valid():
                 form.save()
-                # messages.success(
-                #     request, "A current user record was updated."
-                # )
                 return redirect("admin_list")
         return render(request, "administration/update_admin.html", {"form": form})
     else: 
@@ -111,3 +105,18 @@ def delete_admin(request, pk):
     else: 
         return redirect('home')
 
+def change_password(request, pk):
+    if request.user.is_staff:
+        selected_user = User.objects.get(username = pk)
+        if request.method == "POST":
+            pass1 = str(request.POST.get('password1'))
+            pass2 = str(request.POST.get('password2'))
+            if pass1 == pass2:
+                selected_user.set_password(pass1)
+                selected_user.save()
+
+            if selected_user.is_staff:
+                return redirect('admin_list')
+            return redirect('administration_home')
+        return render(request, 'administration/update_password.html', {})
+    return redirect('home')
