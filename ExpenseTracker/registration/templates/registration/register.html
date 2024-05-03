@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
-
 {% block title %}Registration{% endblock title %}
-
+{% block style %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/register_form.css'%}"/>
+{% endblock style %}
 {% block content %}
     {% if form.errors %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -13,12 +15,16 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
-    <div class="container w-50 mt-5 border rounded-5 p-3">
-        <h1>Registration:</h1>
-        <form method="POST" action="">
-            {% csrf_token %}
-            <div>{{form.as_p}}</div>
-            <button type="submit" class="btn btn-secondary">Register</button>
-        </from>
+    <div class="container d-flex justify-content-center">
+        <div class="card">
+             <h1>Registration:</h1>
+            <div class="card-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button type="submit" class="btn btn-secondary">Register</button>
+                </from>
+            </div>
+        </div>
     </div>
 {% endblock content %}

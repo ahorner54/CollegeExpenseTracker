@@ -53,7 +53,7 @@
                             <tr>
                                 <td>{{income.memo}}</td>
                                 <td>${{income.amount}}</td>
-                                <td>{{income.recurring_periods}}</td>
+                                <td>{{income.recurring_period}}</td>
                                 <td>{{income.end_date}}</td>
                                 <td><a class="btn btn-danger btn-sm" href="{% url 'stop_income' income.pk%}">Stop Recur</td>
                             </tr>
@@ -61,7 +61,7 @@
                         <tbody>
                     </table>
                     {% else %}
-                    <h5><strong>There are no current incomes associated with this semester.
+                    <h5 style="margin-top: 10px;"><strong>There are no current incomes associated with this semester.
                         Click the 'Create Income' link in the navbar to add your first income to this semester!
                     </strong></h5>
                     {% endif %}
@@ -131,7 +131,7 @@
                     </tbody>
                 </table>
                 {% else %}
-                <h5><strong>There are no current expenses associated with this semester.
+                <h5 style="margin-top: 10px;"><strong>There are no current expenses associated with this semester.
                     Click the 'Create Expense' link in the navbar to add your first expense to this semester!
                 </strong></h5>
                 {% endif %}
