@@ -40,7 +40,7 @@ def CreateIncome(request, pk):
                 end_date = request.POST.get('end_date')
             else:
                 is_rec = False
-                recur_per = 'Not today pal'
+                recur_per = 'Not Recurring'
                 end_date = date.today()
 
             income = Income.objects.create(
@@ -67,20 +67,32 @@ def DeleteIncome(request, pk):
     else:
         return redirect('home')
 
-def CreateExpense(request):
+def CreateExpense(request, pk):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            start_bal = request.POST.get('amount')
-            sem_tuit = request.POST.get('semester__semester_tuition')
-            cur_bal = float(start_bal) - float(sem_tuit)
+            current_semester = Semester.objects.get(pk=pk)
+            current_balance = current_semester.current_balance
+            amount = request.POST.get('amount')
+            cur_bal = float(current_balance) + float(amount)
+            current_semester.current_balance = cur_bal
+            current_semester.save()
+            is_rec = request.POST.get('is_recurring')
+            if is_rec == 'Yes':
+                is_rec = True
+                recur_per = request.POST.get('recurring_period')
+                end_date = request.POST.get('end_date')
+            else:
+                is_rec = False
+                recur_per = 'Not Recurring'
+                end_date = date.today()
 
             expense = Expense.objects.create(
-                semester_id=request.POST.get('semester'),
-                amount=float(start_bal),
-                is_recurring=request.POST.get('is_recurring'),
-                recurring_period=request.POST.get('recurring_period'),
-                memo=request.POST.get('memo'),
-                current_balance=cur_bal
+                semester_id=current_semester,
+                amount=float(amount),
+                is_recurring=is_rec,
+                recurring_period=recur_per,
+                end_date = end_date,
+                memo=request.POST.get('memo')
             )
             expense.save()
             return redirect('home')
@@ -130,11 +142,6 @@ def DeleteSemester(request, pk):
         return render(request, 'budget/semester_confirm_delete.html', {'semester': semester})
     else:
         return redirect('home')
-
-class SemesterForm(forms.ModelForm):
-        class Meta:
-            model = Semester
-            fields = ['semester_name', 'start_date', 'end_date', 'starting_balance', 'semester_tuition', 'current_balance']
 
 def semester(request, pk):
     if not(request.user.is_authenticated):

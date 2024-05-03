@@ -19,9 +19,9 @@
         </li>
 
       {% else %}
-        <li class="nav-item">
+        {% comment %} <li class="nav-item">
           <a class="nav-link active" href="{% url 'expense_form' %}">Create Expense</a>
-        </li>
+        </li> {% endcomment %}
         {% comment %} <li class="nav-item">
           <a class="nav-link active" href="{% url 'income_form' %}">Create Income</a>
         </li> {% endcomment %}

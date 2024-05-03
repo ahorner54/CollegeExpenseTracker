@@ -11,7 +11,7 @@
     </table>
 </div>
 <div>
-    <a href="{% url 'income_form' current_semester %}" class="btn btn-secondary">SemesterX</a>
+    <a href="{% url 'income_form' current_semester %}" class="btn btn-secondary">Create Income</a>
 </div>
 
 <!-- Income List with Report -->
@@ -22,7 +22,7 @@
         <thead class="table-bordered">
             <th>Memo</th>
             <th>Amount</th>
-            <th>Recurring</th>
+            <th>Recurring Period</th>
             <th>End Date</th>
             <th style="width: 20px;"></th>
         </thead>
@@ -39,6 +39,10 @@
     {% endif %}
 </div>
 
+
+<div>
+    <a href="{% url 'expense_form' current_semester %}" class="btn btn-secondary">Create Expense</a>
+</div>
 <!-- Expense List with Report-->
 <div class="container pt-5 pb-3">
     {% if expenses %}
@@ -47,7 +51,7 @@
             <thead class="table-bordered"> 
                 <th>Memo</th>
                 <th>Amount</th>
-                <th>Recurring</th>
+                <th>Recurring Period</th>
                 <th>End Date</th>
                 <th style="width: 20px;"></th>
             </thead>
@@ -57,7 +61,7 @@
                     <td>{{expense.amount}}</td>
                     <td>{{expense.recurring_period}}</td>
                     <td>{{expense.end_date}}</td>
-                    <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="#">Update</a>
+                    <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="#">Delete</a>
                 </tr>
             {% endfor %}
         </table>   

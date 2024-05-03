@@ -8,5 +8,5 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     path('semester_form/', views.CreateSemester, name='semester_form'),
     path('income_form/<int:pk>', views.CreateIncome, name='income_form'),
-    path('expense_form/', views.CreateExpense, name='expense_form')
+    path('expense_form/<int:pk>', views.CreateExpense, name='expense_form')
 ]
