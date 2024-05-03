@@ -3,7 +3,7 @@
     <a class="navbar-brand" href="{% url 'home' %}">Expense Tracker</a>
     <ul class="navbar-nav">
     </ul>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     {% if user.is_authenticated %}
@@ -35,3 +35,6 @@
     {% endif %}
   </div>
 </nav>
+
+
+
