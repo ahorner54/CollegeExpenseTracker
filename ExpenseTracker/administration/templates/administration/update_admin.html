@@ -6,20 +6,16 @@
 
 
 {% block content %}
-<div class="container">
-  <div class="header-section">
-    <div class="mt-4 p-5">
-      <h1>Update Admin:</h1>
-      <form method="POST" action="">
-        {% csrf_token %}
-
-        {{form.as_p}}
-
-        <button type="submit" class="btn btn-secondary">Update Admin</button>
-
-
-      </form>
-    </div>
+<div class="container d-flex justify-content-center">
+  <div class="card">
+    <h2>Update Admin: {{admin.username}}</h2>
+      <div class="card-body">
+        <form method="POST" action="">
+          {% csrf_token %}
+          {{form.as_p}}
+          <button type="submit" class="btn btn-primary">Update Admin</button>
+        </form>
+      </div>
   </div>
 </div>
 {% endblock %}

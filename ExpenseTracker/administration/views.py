@@ -43,7 +43,7 @@ def update_user(request, pk):
             if form.is_valid():
                 form.save()
                 return redirect("administration_home")
-        return render(request, "administration/update_user.html", {"form": form})
+        return render(request, "administration/update_user.html", {"form": form, 'selected_user': current_user})
     else: 
         return redirect('home')
     
@@ -93,7 +93,7 @@ def update_admin(request, pk):
             if form.is_valid():
                 form.save()
                 return redirect("admin_list")
-        return render(request, "administration/update_admin.html", {"form": form})
+        return render(request, "administration/update_admin.html", {"form": form, 'admin': current_admin})
     else: 
         return redirect('home')
 
@@ -118,5 +118,5 @@ def change_password(request, pk):
             if selected_user.is_staff:
                 return redirect('admin_list')
             return redirect('administration_home')
-        return render(request, 'administration/update_password.html', {})
+        return render(request, 'administration/update_password.html', {'selected_user': selected_user})
     return redirect('home')
