@@ -6,28 +6,24 @@
 
 
 {% block content %}
-<div class="container">
-  <div class="header-section">
-    <h2>User Details:</h2>
-    <div class="card w-75 m-3">
+<div class="container d-flex justify-content-center">
+    <div class="card">
+      <h2>User Details: {{ selected_user.username }}</h2>
       <div class="card-body">
-        <h5 class="card-title">{{ selected_user.username }}</h5>
-        <hr>
-        <p class="card-text"> 
-          <strong>User First Name:</strong> {{ selected_user.first_name }}
-        </p>
-        <p class="card-text"> 
-          <strong>User Last Name:</strong> {{ selected_user.last_name }}
-        </p>
-        <p class="card-text"> 
-          <strong>User Email:</strong> {{ selected_user.email }}
-        </p>
-        <a href="{% url 'administration_home' %}" class="btn btn-secondary">Back</a>
-        <a href="{% url 'update_user' user.username %}" class="btn btn-secondary">Update</a>
-        <a href="{% url 'delete_user' user.username %}" class="btn btn-danger">Delete</a>
-      </div>
-
+          <p class="card-text details"> 
+            <strong>User First Name:</strong> {{ selected_user.first_name }}
+          </p>
+          <p class="card-text"> 
+            <strong>User Last Name:</strong> {{ selected_user.last_name }}
+          </p>
+          <p class="card-text"> 
+            <strong>User Email:</strong> {{ selected_user.email }}
+          </p>
+          <a href="{% url 'administration_home' %}" class="btn btn-secondary">Back</a>
+          <a href="{% url 'update_user' selected_user.username %}" class="btn btn-secondary">Update</a>
+          <a href="{% url 'change_password' selected_user.username %}" class="btn btn-secondary">Change Password</a>
+          <a href="{% url 'delete_user' selected_user.username %}" class="btn btn-danger">Delete</a>
+      </div> 
     </div>
-  </div>
 </div>
 {% endblock %}
