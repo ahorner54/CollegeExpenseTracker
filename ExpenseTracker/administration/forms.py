@@ -13,6 +13,12 @@ class AddUserForm(forms.ModelForm):
     model = User
     fields = ['first_name', 'last_name', 'email', 'username', 'password', 'groups']
 
+  def __init__(self, *args, **kwargs):
+        super(AddUserForm, self).__init__(*args, **kwargs)
+
+        self.fields["groups"].widget.attrs["class"] = "form-control dropdown"
+        self.fields["groups"].widget.attrs['placeholder'] = "User Name"
+
 
 class AddAdminForm(forms.ModelForm):
   email = forms.CharField(required=True, label="", widget=forms.widgets.TextInput(attrs={"class": "form-control", "placeholder": "Email"}))
