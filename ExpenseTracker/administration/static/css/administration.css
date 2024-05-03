@@ -1,11 +1,3 @@
-.list {
-  margin-top: 20px;
-}
-
-.container-fluid.body-section {
-  margin-top: 40px;
-}
-
 body {
   margin-top: 80px;
 }
@@ -35,4 +27,66 @@ body {
 
 .card-body a {
   margin-top: 10px;
+}
+
+.list-card {
+  width: 100%;
+  padding: 20px;
+}
+
+.list-card h2 {
+  padding-bottom: 10px;
+  border-bottom: 1px solid black;
+}
+
+.list-card-body p {
+  font-size: 20px;
+}
+
+.list-card-body {
+  width: 90%;
+  margin-top: 20px;
+}
+
+.table-section {
+  padding: 0px;
+  padding-top: 10px;
+}
+
+#list-table {
+  vertical-align: middle;
+}
+
+#list-table tbody tr td {
+  height: 10px;
+  padding: 0px;
+}
+
+#list-table tbody tr td a {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#list-table tbody tr {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+#list-table tbody tr td {
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+
+#list-table thead th {
+  text-align: center
+}
+
+#list-table tbody tr td:last-child {
+  width: 60px;
+  padding-right: 10px;
+}
+
+#list-table thead th:last-child {
+  width: 60px;
+  padding-right: 20px
 }
