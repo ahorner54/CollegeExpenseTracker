@@ -247,6 +247,19 @@ def view_account(request, username):
             return redirect('home')
     else:
         return redirect('home')
+    
+def delete_account(request, username):
+    if request.user.is_authenticated:
+        if request.user.username == username:
+            current_user = User.objects.get(username=username)
+            if request.method == "POST":
+                pass
+            else:
+                return render(request, 'budget/account_confirm_delete.html', {'current_user': current_user})
+        else:
+            return redirect('home')
+    else:
+        return redirect('home')
 
 def to_date_sum(moneyList, is_income):
     total_money = 0
