@@ -253,7 +253,8 @@ def delete_account(request, username):
         if request.user.username == username:
             current_user = User.objects.get(username=username)
             if request.method == "POST":
-                pass
+                current_user.delete()
+                return redirect('home')
             else:
                 return render(request, 'budget/account_confirm_delete.html', {'current_user': current_user})
         else:

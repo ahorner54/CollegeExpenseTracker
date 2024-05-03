@@ -13,9 +13,10 @@
         <form method="POST" action="">
           {% csrf_token %}
           {{form.as_p}}
-          <button type="submit" class="btn btn-primary">Update Account</button>\
-          <a class="btn btn-danger" href="#">Delete Account</a>
+          <button type="submit" class="btn btn-primary">Update Account</button>
+          
         </form>
+        <a class="btn btn-danger" href="{% url 'delete_account' user.username %}">Delete Account</a>
       </div>
   </div>
 </div>
