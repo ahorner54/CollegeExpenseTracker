@@ -9,6 +9,8 @@ from django.views import generic # type: ignore
 from .models import Semester, Income, Expense
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
+from .forms import UpdateUserForm
+from django.contrib.auth.models import User
 
 def home(request):
     if request.user.is_authenticated:
@@ -233,10 +235,14 @@ def logout_user(request):
 def view_account(request, username):
     if request.user.is_authenticated:
         if request.user.username == username:
+            current_user = User.objects.get(username=username)
+            form = UpdateUserForm(request.POST or None, instance=current_user)
             if request.method == "POST":
-                pass
+                if form.is_valid():
+                    form.save()
+                return redirect("home")
             else:
-                return render(request, )
+                return render(request, 'budget/account.html', {'form': form, 'current_user': current_user})
         else:
             return redirect('home')
     else:
