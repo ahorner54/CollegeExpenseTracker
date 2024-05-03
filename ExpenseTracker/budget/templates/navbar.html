@@ -20,7 +20,7 @@
 
       {% else %}
         <li class="nav-item">
-          <a class="nav-link active" href="#">Account</a>
+          <a class="nav-link active" href="{% url 'account' user.username %}">Account</a>
         </li>
       {% endif %}
         <li class="nav-item">

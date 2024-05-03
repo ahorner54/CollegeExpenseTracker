@@ -230,6 +230,18 @@ def logout_user(request):
     messages.success(request, 'You have been logged out successfully.')
     return redirect('home')
 
+def view_account(request, username):
+    if request.user.is_authenticated:
+        if request.user.username == username:
+            if request.method == "POST":
+                pass
+            else:
+                return render(request, )
+        else:
+            return redirect('home')
+    else:
+        return redirect('home')
+
 def to_date_sum(moneyList, is_income):
     total_money = 0
 
