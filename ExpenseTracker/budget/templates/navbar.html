@@ -19,13 +19,9 @@
         </li>
 
       {% else %}
-        {% comment %} <li class="nav-item">
-          <a class="nav-link active" href="{% url 'expense_form' %}">Create Expense</a>
-        </li> {% endcomment %}
-        {% comment %} <li class="nav-item">
-          <a class="nav-link active" href="{% url 'income_form' %}">Create Income</a>
-        </li> {% endcomment %}
-
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'account' user.username %}">Account</a>
+        </li>
       {% endif %}
         <li class="nav-item">
           <a class="nav-link active" href="{% url 'logout' %}">Logout</a>
