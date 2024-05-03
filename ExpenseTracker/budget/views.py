@@ -52,18 +52,19 @@ def CreateIncome(request, pk):
                 memo=request.POST.get('memo')
             )
             income.save()
-            return redirect('home')
+            return semester(request, current_semester.pk)
         return render(request, 'budget/income_form.html')
     else:
         return redirect('home')
 
-def DeleteIncome(request, pk):
+def StopRecurringIncome(request, pk):
     if request.user.is_authenticated:
         income = Income.objects.get(pk=pk)
-        if request.method == 'POST':
-            income.delete()
-            return redirect('home')
-        return render(request, 'budget/income_confirm_delete.html', {'income': income})
+        if date.today() < income.end_date:
+            income.end_date = date.today()
+            income.save()
+        
+        return semester(request, income.semester_id.pk)
     else:
         return redirect('home')
 
@@ -95,18 +96,20 @@ def CreateExpense(request, pk):
                 memo=request.POST.get('memo')
             )
             expense.save()
-            return redirect('home')
+            return semester(request, current_semester.pk)
         return render(request, 'budget/expense_form.html')
     else:
         return redirect('home')
 
-def DeleteExpense(request, pk):
+def StopRecurringExpense(request, pk):
     if request.user.is_authenticated:
         expense = Expense.objects.get(pk=pk)
-        if request.method == 'POST':
-            expense.delete()
-            return redirect('home')
-        return render(request, 'budget/expense_confirm_delete.html', {'expense': expense})
+        
+        if date.today() < expense.end_date:
+            expense.end_date = date.today()
+            expense.save()
+
+        return semester(request, expense.semester_id.pk)
     else:
         return redirect('home')
 
