@@ -1,13 +1,15 @@
-from django.shortcuts import render, redirect
-from django.views.generic import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect # type: ignore
+from django.views.generic import CreateView, UpdateView, DeleteView # type: ignore
+from django.urls import reverse_lazy # type: ignore
 from .models import Semester, Income, Expense
-from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
+from django.contrib.auth import authenticate, login, logout # type: ignore
+from django.contrib import messages # type: ignore
+from django.contrib.auth.mixins import LoginRequiredMixin # type: ignore
+from django.views import generic # type: ignore
 from .models import Semester, Income, Expense
 from datetime import date, timedelta
+from django import forms  # type: ignore
+from django.contrib.auth.decorators import login_required, permission_required # type: ignore
 
 def home(request):
     if request.user.is_authenticated:
@@ -22,50 +24,127 @@ def home(request):
     
     return render(request, 'budget/home.html', {})
 
-class CreateIncome(CreateView):
-    model = Income
-    fields = ['semester', 'amount', 'is_recurring', 'recurring_period', 'memo']
-    template_name = 'budget/income_form.html'
-    success_url = reverse_lazy('home')
+def CreateIncome(request, pk):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            current_semester = Semester.objects.get(pk=pk)
+            current_balance = current_semester.current_balance
+            amount = request.POST.get('amount')
+            cur_bal = float(current_balance) + float(amount)
+            current_semester.current_balance = cur_bal
+            current_semester.save()
+            is_rec = request.POST.get('is_recurring')
+            if is_rec == 'Yes':
+                is_rec = True
+                recur_per = request.POST.get('recurring_period')
+                end_date = request.POST.get('end_date')
+            else:
+                is_rec = False
+                recur_per = 'Not Recurring'
+                end_date = date.today()
 
-class UpdateIncome(UpdateView):
-    model = Income
-    fields = ['amount', 'is_recurring', 'recurring_period', 'memo']
-    template_name = 'budget/income_form.html'
-    success_url = reverse_lazy('home')
+            income = Income.objects.create(
+                semester_id=current_semester,
+                amount=float(amount),
+                is_recurring=is_rec,
+                recurring_period=recur_per,
+                end_date = end_date,
+                memo=request.POST.get('memo')
+            )
+            income.save()
+            return semester(request, current_semester.pk)
+        return render(request, 'budget/income_form.html')
+    else:
+        return redirect('home')
 
-class DeleteIncome(DeleteView):
-    model = Income
-    template_name = 'budget/income_confirm_delete.html'
-    success_url = reverse_lazy('home')
+def StopRecurringIncome(request, pk):
+    if request.user.is_authenticated:
+        income = Income.objects.get(pk=pk)
+        if date.today() < income.end_date:
+            income.end_date = date.today()
+            income.save()
+        
+        return semester(request, income.semester_id.pk)
+    else:
+        return redirect('home')
 
-class CreateExpense(CreateView):
-    model = Expense
-    fields = ['semester', 'amount', 'is_recurring', 'recurring_period', 'memo']
-    template_name = 'budget/expense_form.html'
-    success_url = reverse_lazy('home')
+def CreateExpense(request, pk):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            current_semester = Semester.objects.get(pk=pk)
+            current_balance = current_semester.current_balance
+            amount = request.POST.get('amount')
+            cur_bal = float(current_balance) + float(amount)
+            current_semester.current_balance = cur_bal
+            current_semester.save()
+            is_rec = request.POST.get('is_recurring')
+            if is_rec == 'Yes':
+                is_rec = True
+                recur_per = request.POST.get('recurring_period')
+                end_date = request.POST.get('end_date')
+            else:
+                is_rec = False
+                recur_per = 'Not Recurring'
+                end_date = date.today()
 
-class UpdateExpense(UpdateView):
-    model = Expense
-    fields = ['amount', 'is_recurring', 'recurring_period', 'memo']
-    template_name = 'budget/expense_form.html'
-    success_url = reverse_lazy('home')
+            expense = Expense.objects.create(
+                semester_id=current_semester,
+                amount=float(amount),
+                is_recurring=is_rec,
+                recurring_period=recur_per,
+                end_date = end_date,
+                memo=request.POST.get('memo')
+            )
+            expense.save()
+            return semester(request, current_semester.pk)
+        return render(request, 'budget/expense_form.html')
+    else:
+        return redirect('home')
 
-class DeleteExpense(DeleteView):
-    model = Expense
-    template_name = 'budget/expense_confirm_delete.html'
-    success_url = reverse_lazy('home')
+def StopRecurringExpense(request, pk):
+    if request.user.is_authenticated:
+        expense = Expense.objects.get(pk=pk)
+        
+        if date.today() < expense.end_date:
+            expense.end_date = date.today()
+            expense.save()
 
-class CreateSemester(CreateView):
-    model = Semester
-    fields = ['student', 'semester_name', 'start_date', 'end_date', 'starting_balance', 'semester_tuition', 'current_balance']
-    template_name = 'budget/semester_form.html'
-    success_url = reverse_lazy('home')
+        return semester(request, expense.semester_id.pk)
+    else:
+        return redirect('home')
 
-class DeleteSemester(DeleteView):
-    model = Semester
-    template_name = 'budget/semester_confirm_delete.html'
-    success_url = reverse_lazy('home')
+def CreateSemester(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            start_bal = request.POST.get('starting_balance'),
+            sem_tuit = request.POST.get('semester_tuition'),
+            cur_bal = (float(start_bal[0]) - float(sem_tuit[0]))
+
+
+            semester = Semester.objects.create(
+                student_id = request.user,
+                semester_name = request.POST.get('semester_name'),
+                start_date = request.POST.get('start_date'),
+                end_date = request.POST.get('end_date'),
+                starting_balance = float(start_bal[0]),
+                semester_tuition = float(sem_tuit[0]),
+                current_balance = cur_bal
+            )
+            semester.save()
+            return redirect('home')
+        return render(request, 'budget/semester_form.html')
+    else:
+        return redirect('home')
+
+def DeleteSemester(request, pk):
+    if request.user.is_authenticated:
+        semester = Semester.objects.get(pk=pk)
+        if request.method == 'POST':
+            semester.delete()
+            return redirect('home')
+        return render(request, 'budget/semester_confirm_delete.html', {'semester': semester})
+    else:
+        return redirect('home')
 
 def semester(request, pk):
     if not(request.user.is_authenticated):
@@ -81,8 +160,8 @@ def semester(request, pk):
 
         incomes = Income.objects.filter(semester_id=pk)
         expenses = Expense.objects.filter(semester_id=pk)
-        semester_name = semesters[0].semester_name
-        starting_balance = semesters[0].starting_balance
+        semester_name = current_semester.semester_name
+        starting_balance = current_semester.starting_balance
 
         #calculate to date expenses and income
         to_date_expense = to_date_sum(expenses)
@@ -102,6 +181,7 @@ def semester(request, pk):
 
         context = {
            'semester_list': semesters,
+           'current_semester': current_semester.pk,
            'semester_name': semester_name,
            'incomes': incomes,
             'expenses': expenses,
@@ -248,3 +328,6 @@ def end_sum(moneyList):
                     #update total_expense accordingly
                     total_money += (amount * times_to_update)
     return total_money
+
+
+    
