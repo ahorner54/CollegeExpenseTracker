@@ -11,7 +11,7 @@ class AddUserForm(forms.ModelForm):
 
   class Meta:
     model = User
-    fields = "__all__"
+    fields = ['first_name', 'last_name', 'email', 'username', 'password', 'groups']
 
 
 class AddAdminForm(forms.ModelForm):
@@ -24,4 +24,4 @@ class AddAdminForm(forms.ModelForm):
 
   class Meta:
     model = User
-    fields = "__all__"
+    fields = ['first_name', 'last_name', 'email', 'username', 'password', 'groups', 'is_staff']
