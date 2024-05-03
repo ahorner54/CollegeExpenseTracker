@@ -1,10 +1,14 @@
 {% extends '../base.html' %}
 {% block title %}Create Expense{% endblock title %}
+{% block style %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/form.css'%}"/>
+{% endblock style %}
 {% block content %}
-<div class="container pt-5">
-  <h1>Create New Expense</h1>
+<div class="container d-flex justify-content-center">
   <div class="card">
-    <div class="card-body">
+    <h1>Create New Expense</h1>
+    <div class="card-body income-expense-body">
       <form method="POST">
         {% csrf_token %}
         <div class="col-sm-6 d-flex justify-content-end">
@@ -34,7 +38,7 @@
         </div>
         <div class="form-group" id="end_date">
           <label for="end_date">End Date:</label>
-          <input type="date" name="end_date" id="end_date">
+          <input type="date" name="end_date" id="end_date" class="form-control">
         </div>
         <div class="form-group">
           <label for="memo">Memo:</label>

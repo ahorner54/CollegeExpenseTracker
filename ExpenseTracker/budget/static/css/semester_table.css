@@ -1,6 +1,7 @@
 .card {
     padding: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
 .overall-summary {
@@ -8,6 +9,7 @@
     border-collapse: separate;
     border-spacing: 0;
     text-align: center;
+    margin-top: 20px;
 }
 
 .overall-summary tr:first-child td {
@@ -37,4 +39,14 @@
 
 .table-list {
     margin-top: 10px;
+    text-align: center;
+}
+
+.delete-btn {
+    margin-left: 10px;
+}
+
+.semester-head h2 {
+    margin-top: 10px;
+    margin-bottom: 15px;
 }

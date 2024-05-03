@@ -1,0 +1,12 @@
+.welcome-head {
+    align-items: text;
+}
+
+.welcome-head>h2,
+.welcome-head>p {
+    text-align: center;
+}
+
+.welcome-head>h2 {
+    margin-top: 10px;
+}

@@ -41,6 +41,11 @@ form a {
     font-weight: 500;
 }
 
-form {
-    padding-left: 50px;
+.semester-btn {
+    margin-top: 10px;
+}
+
+.income-expense-body .form-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

@@ -1,11 +1,15 @@
 {% extends '../base.html' %}
 {% block title %}Create Semester{% endblock title %}
+{% block style %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/form.css'%}"/>
+{% endblock style %}
 {% block content %}
-<div class="container pt-5">
-  <h1>Create New Semester</h1>
-  <div class="card">
-    <div class="card-body">
-      <form method="POST">
+<div class="container d-flex justify-content-center">
+  <div class="card semester-card">
+    <h1>Create New Semester</h1>
+    <div class="card-body semester-card-body">
+      <form method="POST" class="semester-form">
         {% csrf_token %}
         <div class="form-group">
             <label for="semester_name">Semester Name:</label>
@@ -27,7 +31,7 @@
           <label for="semester_tuition">Semester Tuition:</label>
           <input type="number" class="form-control" id="semester_tuition" name="semester_tuition" step="0.01" required>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary semester-btn">Create Semester</button>
       </form>
     </div>
   </div>

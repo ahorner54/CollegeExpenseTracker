@@ -16,3 +16,14 @@
     font-weight: bold;
     text-align: center;
 }
+
+.login-card {
+    width: 800px;
+    align-items: center;
+    padding-top: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-control {
+    width: 500px;
+}
