@@ -10,18 +10,18 @@
     <div class="container pt-5">
         <div class="row">
             <div class="col-sm-6 d-flex justify-content-end">
-            {% if semester_list %}
+
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Select Semester
                     </button>
                     <ul class="dropdown-menu">
                         {% for semester in semester_list %}
-                            <li><a href="{% url 'semester' semester.pk %}">{{semester.semester_name}}</a>></li>
+                            <li><a class="dropdown-item" href="{% url 'semester' semester.pk %}">{{semester.semester_name}}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
-            {%endif%}
+
             </div>
             <div class="col-sm-6 d-flex justify-content-left">
             <a class="btn btn-secondary" style="width: 150px;" href={% url 'semester_form' %}>Create Semester</a>
@@ -32,7 +32,8 @@
         {% endblock semester %}
 
     {% else %}
-        <div class="container">
+        <div class="container login-input">
+            <p>Welcome to College Expense Tracker! Please log in to track your accounts.</p>
             {% include './login.html' %}
         </div>
     {% endif %}

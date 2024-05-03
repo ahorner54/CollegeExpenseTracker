@@ -1,9 +1,13 @@
 {% extends './home.html' %}
+{% load static %}
 {% block title %}{{semester_name}}{% endblock title %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/semester_tables.css' %}" />
+{% endblock style %}
 {%block semester %}
 <a class="btn" href="{% url 'delete_semester' current_semester %}">Delete Sem</a>
 <div class="container pt-5">
-    <table class="table table-borderless">
+    <table class="table overall-summary">
         <tr>
             <td>Starting Balance: ${{start_bal}}</td>
             <td>Current Balance: ${{current_bal}}</td>
@@ -17,27 +21,57 @@
 
 <!-- Income List with Report -->
 <div class="container pt-5 pb-3">
-    {% if incomes %}
-    <h2><strong>Income List: </strong></h2>
-    <table class="table table-striped">
-        <thead class="table-bordered">
-            <th>Memo</th>
-            <th>Amount</th>
-            <th>Recurring Period</th>
-            <th>End Date</th>
-            <th style="width: 20px;"></th>
-        </thead>
-        {% for income in incomes %}
-            <tr>
-                <td>{{income.memo}}</td>
-                <td>{{income.amount}}</td>
-                <td>{{income.recurring_period}}</td>
-                <td>{{income.end_date}}</td>
-                <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="{% url 'stop_income' income.pk%}">Stop Recur</a>
-            </tr>
-        {% endfor %}
-    </table>   
+    <div class="row">
+        {% if incomes %}
+        <div class="col-sm-9">
+        <table class="table table-striped table-list">
+            <thead>
+                <tr>
+                    <th colspan="5"><h2>Income List</h2></th>
+                </tr>
+                <tr>
+                    <th>Memo</th>
+                    <th>Amount</th>
+                    <th>Recurring Period</th>
+                    <th>End Date</th>
+                    <th style="width: 20px;">Update</th>
+                </tr>
+            </thead>
+            {% for income in incomes %}
+            <tbody>
+                <tr>
+                    <td>{{income.memo}}</td>
+                    <td>${{income.amount}}</td>
+                    <td>{{income.recurring_periods}}</td>
+                    <td>{{income.end_date}}</td>
+                    <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="{% url 'stop_income' income.pk%}">Stop Recur</td>
+                </tr>
+            <tbody>
+            {% endfor %}
+        </table>
+        </div>
+        <div class="col-sm-3">
+            <table class="table  summary">
+                <thead>
+                    <th>Income Summary</th>
+                </thead>
+                <tr>
+                    <td>Weekly Income: ${{income_weekly}}</td>
+                </tr>
+                <tr>
+                    <td>Bi-weekly Income: ${{income_biweekly}}</td>
+                </tr>
+                <tr>
+                    <td>Monthly Income: ${{income_monthly}}</td>
+                </tr>
+            </table>
+        </div>
+    {% else %}
+    <h5><strong>There are no current incomes associated with this semester.
+        Click the 'Create Income' link in the navbar to add your first income to this semester!
+    </strong></h5>
     {% endif %}
+    </div>
 </div>
 
 
@@ -46,26 +80,57 @@
 </div>
 <!-- Expense List with Report-->
 <div class="container pt-5 pb-3">
-    {% if expenses %}
-        <h2><strong>Expense List: </strong></h2>
-        <table class="table table-striped">
-            <thead class="table-bordered"> 
-                <th>Memo</th>
-                <th>Amount</th>
-                <th>Recurring Period</th>
-                <th>End Date</th>
-                <th style="width: 20px;"></th>
-            </thead>
-            {% for expense in expenses %}
+    <div class="row">
+        {% if expenses %}
+        <div class="col-sm-9">
+            <table class="table table-striped table-list">
+                <thead> 
+                    <tr>
+                        <th colspan="5"><h2>Expense List</h2></th>
+                    </tr>
+                    <tr>
+                        <th>Memo</th>
+                        <th>Amount</th>
+                        <th>Recurring Period</th>
+                        <th>End Date</th>
+                        <th style="width: 20px;">Update</th>
+                    </tr>
+                </thead>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{expense.memo}}</td>
+                        <td>${{expense.amount}}</td>
+                        <td>{{expense.recurring_period}}</td>
+                        <td>{{expense.end_date}}</td>
+                        <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="{% url 'stop_expense' expense.pk %}">Stop Recur</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div> 
+        <div class="col-sm-3">
+            <table class="table table-bordered summary">
+                <thead>
+                    <th>Expense Summary</th>
+                </thead>
                 <tr>
-                    <td>{{expense.memo}}</td>
-                    <td>{{expense.amount}}</td>
-                    <td>{{expense.recurring_period}}</td>
-                    <td>{{expense.end_date}}</td>
-                    <td style="width: 20px;"><a class="btn btn-secondary btn-sm" href="{% url 'stop_expense' expense.pk %}">Stop Recur</a>
+                    <td>Weekly Expenses: ${{expense_weekly}}</td>
                 </tr>
-            {% endfor %}
-        </table>   
+                <tr>
+                    <td>Bi-weekly Expenses: ${{expense_biweekly}}</td>
+                </tr>
+                <tr>
+                    <td>Monthly Expenses: ${{expense_monthly}}</td>
+                </tr>
+                <tr>
+                    <td>Semester Tuition: ${{tuition}}</td>
+                </tr>
+            </table>
+        </div>
+    {% else %}
+    <h5><strong>There are no current expenses associated with this semester.
+        Click the 'Create Expense' link in the navbar to add your first expense to this semester!
+    </strong></h5>
     {% endif %}
+    </div>
 </div>
 {% endblock semester %}

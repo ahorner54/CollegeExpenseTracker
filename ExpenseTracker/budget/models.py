@@ -4,7 +4,7 @@ from django.conf import settings
 # Create your models here.
 class Semester(models.Model):
     semester_id = models.AutoField(primary_key=True)
-    student_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    student_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     semester_name = models.CharField(max_length = 30)
     start_date = models.DateField()
     end_date = models.DateField()
@@ -15,22 +15,22 @@ class Semester(models.Model):
 
 class Income(models.Model):
     income_id = models.AutoField(primary_key=True)
-    semester_id = models.ForeignKey(Semester, on_delete=models.RESTRICT, null=True)
+    semester_id = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True)
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     is_recurring = models.BooleanField()
     #User Does Not Enter date_last_updated, it is automatically generated
-    date_last_updated = models.DateField(auto_now=True)
+    date_last_updated = models.DateField(auto_now_add=True)
     end_date = models.DateField()
     recurring_period = models.CharField(max_length = 20)
     memo = models.CharField(max_length=200, null=True)
 
 class Expense(models.Model):
     income_id = models.AutoField(primary_key=True)
-    semester_id = models.ForeignKey(Semester, on_delete=models.RESTRICT, null=True)
+    semester_id = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True)
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     is_recurring = models.BooleanField()
     #User Does Not Enter date_last_updated, it is automatically generated
-    date_last_updated = models.DateField(auto_now=True)
+    date_last_updated = models.DateField(auto_now_add=True)
     end_date = models.DateField()
     recurring_period = models.CharField(max_length = 20)
     memo = models.CharField(max_length=200, null=True)
