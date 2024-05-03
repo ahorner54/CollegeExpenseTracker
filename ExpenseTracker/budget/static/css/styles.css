@@ -16,3 +16,8 @@
     font-weight: bold;
     text-align: center;
 }
+
+body {
+    margin-top: 75px;
+    margin-bottom: 200px;
+}
